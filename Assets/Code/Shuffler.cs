@@ -23,7 +23,7 @@ public static class Shuffler{
         }
         */
 
-    public static List<int> generateRandomList() {
+    public static List<int> generateRandomList(int amount) {
         List<int> numberList = new List<int>();
         List<int> randomList = new List<int>();
 
@@ -33,7 +33,7 @@ public static class Shuffler{
 
         shuffleList(numberList);
 
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < amount; j++) {
             randomList.Add(numberList[j]);
         }
 

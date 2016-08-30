@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class InterfaceManager : MonoBehaviour {
 
     public GameObject optionsPanel;
-    public GameObject controller;
+    public GameObject controllerGeneral;
+    public GameObject controllerSelection;
     public GameObject gameOverController;
     public Text infoText;
 
@@ -26,7 +27,8 @@ public class InterfaceManager : MonoBehaviour {
     }
 
     public void disableControls() {
-        controller.SetActive(false);
+        controllerGeneral.SetActive(false);
+        //controllerSelection.SetActive(false);
     }
 
     public void toggleGameOverControls() {
@@ -49,5 +51,9 @@ public class InterfaceManager : MonoBehaviour {
 
     public void returnToMainMenu() {
         SceneManager.LoadScene(KeyDictionary.SCENES.MAINMENU);
+    }
+
+    public void returnToArcade() {
+        SceneManager.LoadScene(KeyDictionary.SCENES.ARCADE);
     }
 }

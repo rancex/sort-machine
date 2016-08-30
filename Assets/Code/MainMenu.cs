@@ -1,20 +1,34 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+
 
 public class MainMenu : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void startBubbleSort() {
-        SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        SceneChooser.startBubbleSort();
+    }
+
+    public void startSelectionSort() {
+        SceneChooser.startSelectionSort();
+    }
+
+    public void startInsertionSort() {
+        SceneChooser.startInsertionSort();
+    }
+
+    public void startShellSort() {
+        SceneChooser.startShellSort();
+    }
+
+    public void startHeapSort() {
+        SceneChooser.startHeapSort();
+    }
+
+    public void startMergeSort() {
+        SceneChooser.startMergeSort();
+    }
+
+    public void startQuickSort() {
+        SceneChooser.startQuickSort();
     }
 }
