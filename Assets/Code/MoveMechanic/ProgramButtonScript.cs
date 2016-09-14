@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ProgramButtonScript : MonoBehaviour {
 
     public GameObject programMoveManager;
 
     public GameObject spriteManager;
-    
 
+    //private SpriteRenderer renderer;
+    public Image render;
 
     public int moveType;
     //public TextMesh moveText;
@@ -18,17 +20,19 @@ public class ProgramButtonScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         programMoveManager = GameObject.Find("ProgramMoveManager");
-        
+        render = this.GetComponent<Image>();
+        //renderer = this.GetComponent<SpriteRenderer>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
+
     void OnMouseDown() {
 
-        programMoveManager.GetComponent<ProgrammableMove>().removeMove(indexNumber);
+        //programMoveManager.GetComponent<ProgrammableMove>().removeMove(indexNumber);
 
 
         /*
@@ -45,6 +49,10 @@ public class ProgramButtonScript : MonoBehaviour {
         }
         */
         //programMoveManager.GetComponent<ProgrammableMove>().
+    }
+
+    public void onButtonClick() {
+        programMoveManager.GetComponent<ProgrammableMove>().removeMove(indexNumber);
     }
 
     public void setMoveIndex(int moveIndex) {
@@ -64,29 +72,29 @@ public class ProgramButtonScript : MonoBehaviour {
         switch (moveType) {
             case KeyDictionary.MOVETYPES.MOVECRANEGREEN:
                 {
-                    
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneGreen);
+
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneGreen);
                     break;
                 }
             case KeyDictionary.MOVETYPES.MOVECRANERED:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneRed);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneRed);
                     break;
                 }
             case KeyDictionary.MOVETYPES.MOVECRANEREDLEFT:
                 {
                     this.transform.localScale = new Vector3(-(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneRed);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneRed);
                     break;
                 }
             case KeyDictionary.MOVETYPES.SWITCHOBJECT:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalSwitch);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalSwitch);
                     break;
                 }
             case KeyDictionary.MOVETYPES.MARK:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMark);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMark);
 
                     break;
                 }
@@ -105,17 +113,23 @@ public class ProgramButtonScript : MonoBehaviour {
         switch (moveType) {
             case KeyDictionary.MOVETYPES.MOVECRANEGREEN:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMoveCraneGreen);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMoveCraneGreen);
                     break;
                 }
             case KeyDictionary.MOVETYPES.MOVECRANERED:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMoveCraneRed);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMoveCraneRed);
                     break;
                 }
             case KeyDictionary.MOVETYPES.SWITCHOBJECT:
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenSwitch);
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenSwitch);
+                    break;
+                }
+            case KeyDictionary.MOVETYPES.MARK:
+                {
+                    render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMark);
+
                     break;
                 }
         }

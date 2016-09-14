@@ -36,6 +36,6 @@ public static class SceneChooser{
 
     public static void startQuickSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.QUICKSORT);
-        Debug.Log("UNDER CONSTRUCTION");
+        SceneManager.LoadScene(KeyDictionary.SCENES.QUICKSORT);
     }
 }

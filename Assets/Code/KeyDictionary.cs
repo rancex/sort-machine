@@ -20,7 +20,7 @@ public static class KeyDictionary{
         public const string SHELLSORT = "ShellSort";
         public const string HEAPSORT = "HeapSort";
         public const string MERGESORT = "MergeSort";
-        public const string QUICKSORT = "QuickSort";
+        public const string QUICKSORT = "QuickSort2";
         public const string MAINMENU = "mainmenu";
         public const string ARCADE = "ArcadeStage";
     }

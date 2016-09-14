@@ -85,6 +85,13 @@ public class CraneManager : MonoBehaviour {
         }
     }
 
+    public void reverseCrane() {
+        Vector3 tempPos = craneOne.transform.position;
+
+        craneOne.transform.position = craneTwo.transform.position;
+        craneTwo.transform.position = tempPos;
+    }
+
     public bool moveCrane() {
 
         bool result = true;
@@ -95,8 +102,6 @@ public class CraneManager : MonoBehaviour {
             //if (gameManager.GetComponent<GameManager>().checkValue()) {
 
             cranePosition++;
-
-            Debug.Log(maxCranePosition);
 
             if (cranePosition > maxCranePosition) {
                 if (gameManager.GetComponent<GameManager>().checkIfEndHighest() == true) {
@@ -113,10 +118,13 @@ public class CraneManager : MonoBehaviour {
                 }
             }
             else {
-                craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneOne.transform.position.y);
-                craneTwo.transform.position = new Vector3(craneOne.transform.position.x + gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                //craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneOne.transform.position.y);
+                //craneTwo.transform.position = new Vector3(craneOne.transform.position.x + gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                craneOne.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition,false);
+                craneTwo.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition + 1, false);
+
             }
-            if(maxCranePosition == -1) {
+            if(maxCranePosition == 0) {
                 gameManager.GetComponent<GameManager>().gameOver();
             }
             //}
@@ -135,7 +143,9 @@ public class CraneManager : MonoBehaviour {
             if (cranePosition2 < maxCranePosition) {
                 cranePosition2++;
 
-                craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                //craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+
+                craneTwo.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition2,true);
 
                 //craneTwo.transform.Translate(gameManager.GetComponent<GameManager>().objectGap, 0.0f, 0.0f);
                 Debug.Log(cranePosition2);
@@ -149,6 +159,7 @@ public class CraneManager : MonoBehaviour {
             }
             else {
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Green crane can't move anymore.");
+                result = false;
             }
             //}
 
@@ -178,6 +189,7 @@ public class CraneManager : MonoBehaviour {
         if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {           
             if (gameManager.GetComponent<GameManager>().checkIfEndHighest()) {
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Highest Value on sorted list is bigger than value on crane!");
+                result = false;
                 /*
                 if (gameManager.GetComponent<GameManager>().biggerInsert == true) {
                         
@@ -197,7 +209,9 @@ public class CraneManager : MonoBehaviour {
                     gameManager.GetComponent<GameManager>().gameOver();
                 }
                 else {
-                    craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                    craneTwo.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition2, true);
+
+                    //craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
 
                     programMove.GetComponent<ProgrammableMove>().prepareNextLoop();
                 }
@@ -231,15 +245,24 @@ public class CraneManager : MonoBehaviour {
                 cranePosition2++;
 
                 if(cranePosition2 > maxCranePosition) {
-                    returnCrane(false);
+                    //returnCrane(false);
+                    result = false;
+                    programMove.GetComponent<ProgrammableMove>().prepareNextLoop();
                 }
                 else {
+
+                    craneOne.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition, true);
+                    craneTwo.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition2, true);
+
+                    /*
                     craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneOne.transform.position.y);
                     craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                    */
                 }
             }
             else {
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Value on the left is higher than the right.");
+                result = false;
             }
         }
         #endregion
@@ -256,11 +279,16 @@ public class CraneManager : MonoBehaviour {
         if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
             if (cranePosition2 < maxCranePosition) {
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Finish The Loop First!");
+
+                return false;
             }
             else {
                 if (gameManager.GetComponent<GameManager>().checkIfEndHighest() == true) {
                     cranePosition++;
-                    craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                    //craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+
+                    craneOne.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition,true);
+
                     programMove.GetComponent<ProgrammableMove>().prepareNextLoop();
 
                     if (cranePosition2 > maxCranePosition) {
@@ -282,7 +310,10 @@ public class CraneManager : MonoBehaviour {
         if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
             if(cranePosition > 0) {
                 cranePosition--;
-                craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+
+                craneOne.GetComponent<ClawScript>().moveItemToObjectNum(cranePosition, true);
+
+                //craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
             }
             else {
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Red Crane Cannot Move Anymore");
@@ -356,26 +387,32 @@ public class CraneManager : MonoBehaviour {
 
             if (gapLength > 1) {
 
+                if (restart == false) {
+
+                    gapLength = gapLength / 2;
+                    
+                    gameManager.GetComponent<GameManager>().gapLength = gapLength;
+                }
+
                 cranePosition = 0;
                 cranePosition2 = gapLength;
 
-                craneOne.transform.position = new Vector3(craneOriginalPos + cranePosition * gameManager.GetComponent<GameManager>().objectGap, craneOne.transform.position.y);
-                craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneTwo.transform.position.y);
+                float craneOneXpos = gameManager.GetComponent<GameManager>().carList[cranePosition].transform.position.x;
+                float craneTwoXpos = gameManager.GetComponent<GameManager>().carList[cranePosition2].transform.position.x;
 
-                gapLength = gapLength / 2;
-                gameManager.GetComponent<GameManager>().gapLength = gapLength;
+                craneOne.transform.position = new Vector3(craneOneXpos, craneOne.transform.position.y);
+                craneTwo.transform.position = new Vector3(craneTwoXpos, craneTwo.transform.position.y);
             }
-            else {
-                Debug.Log("start insertion sort");
-                cranePosition = 0;
-                
-                Destroy(craneTwo);
+            if(gapLength <= 1) {
 
                 gameManager.GetComponent<GameManager>().sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
 
-                returnCrane(false);
-
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Start Insertion Sort.");
+                programMove.GetComponent<ProgrammableMove>().destroyAllProgramButtons();
+                programMove.GetComponent<ProgrammableMove>().setAvailableMoves();
+
+                GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().findIdealSolution();
+                programMove.GetComponent<ProgrammableMove>().isRunningIdealSolution = false;
             }
         }
         #endregion

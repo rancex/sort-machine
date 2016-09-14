@@ -7,19 +7,256 @@ public class ClawScript : MonoBehaviour {
 
     public int clawNumber;
 
+    public Coroutine cor;
+
+    public Coroutine animationCor;
+
+    public Animator anim;
+
+    public GameObject Outline;
+
+    public GameObject clawSub;
+
+    //state 1 = isMoving
+    //state 2 = isMovingDown
+    //state 3 = isPinching
+    //state 4 = isGoingUp
+    public int state = 0;
+
+    public bool isPlayingAnimation = false;
+
+    public int targetObjNum;
+
+    public Vector3 originalTargetBoxPosition;
+
+    public Vector3 targetBoxPosition;
+
+    public GameObject nowObj;
+
+    public int newNumber;
+
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
+        anim = this.GetComponent<Animator>();
+        //pinchItem(1,3);
+    }
+
+    bool isPlaying = false;
+
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (isPlaying == true) 
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0)) {
+                isPlaying = false;
+                StartCoroutine(waitForAnimation(0.5f));
+            }   
+        }
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -2.0f);
+    }
 
-    public void highlightClaw(int newClawNumber) {
+    IEnumerator waitForAnimation(float sec) {
+        //isPlaying = false;
+        yield return new WaitForSeconds(sec);
+
+        //after going up
+        if (state == 4) {
+            
+            moveItemToObjectPosition();
+        }
+
+        else {
+            nextAnimation();
+        }
+    }
+
+    //Manage pinching animations
+    public void pinchItem(int nowPos,int newTargetObjNum) {
+
+        Outline.SetActive(false);
+
+        targetObjNum = newTargetObjNum;
+        
+        /*
+        targetObj = GameObject.Find("GameManager").GetComponent<GameManager>().carList[nowPos];
+
+        Vector3 targetBoxPosition = targetObj.transform.position;
+
+        originalTargetBoxPosition = new Vector3(targetBoxPosition.x, targetBoxPosition.y, targetBoxPosition.z);
+        */
+
+        nowObj = GameObject.Find("GameManager").GetComponent<GameManager>().carList[nowPos];
+
+        targetBoxPosition = GameObject.Find("GameManager").GetComponent<GameManager>().carList[newTargetObjNum].transform.position;
+    
+        originalTargetBoxPosition = new Vector3(nowObj.transform.position.x, nowObj.transform.position.y, nowObj.transform.position.z);
+
+        isPlayingAnimation = true;
+
+        Outline.SetActive(false);
+        state = 2;
+        anim.SetInteger("state", state);
+        isPlaying = true;
+        //animationCor = StartCoroutine(waitForAnimationToFinish());
+    }
+
+    public void nextAnimation() {
+
+        if (animationCor != null) {
+            StopCoroutine(animationCor);
+            animationCor = null;
+        }
+
+        if (state == 1) {
+            state = 0;
+            Debug.Log("justmove");
+            GameObject.Find("ProgramMoveManager").GetComponent<ProgrammableMove>().afterMovement(this.gameObject);
+        }
+
+        else if (state == 8) {
+            state = 0;
+            GameObject.Find("ProgramMoveManager").GetComponent<ProgrammableMove>().afterSingleMovement();
+        }
+
+        else {
+            state++;
+
+            if (state == 4 || state == 5) {
+                //targetObj.transform.position = new Vector3(clawSub.transform.position.x, clawSub.transform.position.y - 1, targetObj.transform.position.z);
+                nowObj.transform.parent = clawSub.transform;
+            }
+
+            if (state == 5) {
+                if (GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+
+                    GameObject.Find("GameManager").GetComponent<GameManager>().moveItems();
+                }
+            }
+
+            else if (state == 7) {
+                nowObj.transform.parent = null;
+            }
+
+            if (state > 7) state = 0;
+            anim.SetInteger("state", state);
+
+            if (state != 0) isPlaying = true;
+            else {
+                isPlaying = false;
+                isPlayingAnimation = false;
+                Outline.SetActive(true);
+                GameObject.Find("GameManager").GetComponent<GameManager>().afterSwitch(this.gameObject, targetObjNum);
+            }
+        }
+        
+
+        //if (state !=4)
+        //animationCor = StartCoroutine(waitForAnimationToFinish());
+        
+    }
+
+    //single = check if only one crane is moving
+    public void moveItemToObjectNum(int objNum,bool single) {
+
+        Vector3 targetPos = GameObject.Find("GameManager").GetComponent<GameManager>().carList[objNum].transform.position;
+
+        if (single == true) {
+            state = 8;
+        }
+        else {
+            state = 1;
+        }
+
+        cor = StartCoroutine(smoothMoveToTrigger(1.0f, targetPos));
+    }
+
+    public void moveItemToObjectPosition() {
 
         
+        cor = StartCoroutine(smoothMoveToTrigger(1.0f, targetBoxPosition));
+    }
+
+    IEnumerator smoothMoveToTrigger(float time, Vector3 targetPos) {
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < time) {
+            this.transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPos.x, (elapsedTime / time)),
+                                                  transform.position.y,
+                                                  -4.0f);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        nextAnimation();
+    }
+
+    IEnumerator waitForAnimationToFinish() {
+
+        //Debug.Log(anim.GetCurrentAnimatorClipInfo(0).Length);
+
+        while (true) {
+            
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > anim.GetCurrentAnimatorStateInfo(0).length && !anim.IsInTransition(0)) {
+                nextAnimation();
+                yield return null;
+            }
+            else yield return null;
+            //Debug.Log(anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
+        
+        /*
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0)) {
+        nextAnimation();
+        yield return new WaitForFixedUpdate();
+        }
+        */
+        /*
+        while (true) {
+
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0)) {
+                nextAnimation();
+                yield return new WaitForFixedUpdate();
+                break;
+            }
+            */
+            /*
+            //Debug.Log(anim.GetCurrentAnimatorStateInfo(0).name
+            if (state == 2) {
+                
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("PinchAnimation")) {
+                    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0)) {
+                        yield return new WaitForSeconds(0.1f);
+                        nextAnimation();
+                        break;
+                    }
+                }
+                else {
+                    Debug.Log("a");
+                    yield return new WaitForSeconds(0.1f);
+                    break;
+                }
+            }
+            else if (state == 3) {
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("ClosePinch")) {
+                    if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0)) {
+                        yield return new WaitForSeconds(0.1f);
+                        nextAnimation();
+                        break;
+                    }
+                }
+                else {
+                    yield return new WaitForSeconds(0.1f);
+                    break;
+                }
+            }
+            else {
+                yield return new WaitForSeconds(0.1f);
+                break;
+            }
+            */
+    }
+
+    public void highlightClaw(int newClawNumber) {
 
         clawNumber = newClawNumber;
 

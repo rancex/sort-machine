@@ -4,6 +4,7 @@ using System.Collections;
 public class CarMainScript : MonoBehaviour {
 
     public TextMesh txtNumber;
+
     public GameObject carObject;
 
     public int carNumber;
@@ -17,13 +18,25 @@ public class CarMainScript : MonoBehaviour {
 
     public bool canMove = true;
 
+    private string SortingLayerName = "Default";
+    private int SortingOrder = 2;
+
     // Use this for initialization
     void Start () {
         canMove = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        txtNumber.GetComponent<MeshRenderer>().sortingLayerName = SortingLayerName;
+        txtNumber.GetComponent<MeshRenderer>().sortingOrder = SortingOrder;
+    }
+
+    
+
+    void Awake() {
+        
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
@@ -58,6 +71,22 @@ public class CarMainScript : MonoBehaviour {
         if (cor != null) {
             StopCoroutine(cor);
             cor = null;
+        }
+    }
+
+    public void moveToPosition(float xPos) {
+        StartCoroutine(smoothMoveToPosition(1.0f,xPos));
+    }
+
+    IEnumerator smoothMoveToPosition(float time, float targetPos) {
+        float elapsedTime = 0;
+
+        while (elapsedTime < time) {
+            this.transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPos, (elapsedTime / time)),
+                                                  transform.position.y,
+                                                  0.0f);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
     }
 

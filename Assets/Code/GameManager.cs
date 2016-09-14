@@ -71,12 +71,12 @@ public class GameManager : MonoBehaviour {
     public float startYpos = -0.5f;
 
     //Decides the amount of objects in the scene
-    public int objectAmount = 4;
+    public int objectAmount = 5;
 
 	// Use this for initialization
 	void Start () {
 
-        PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.BUBBLESORT);
+        //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.BUBBLESORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SELECTIONSORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.INSERTIONSORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SHELLSORT);
@@ -86,7 +86,13 @@ public class GameManager : MonoBehaviour {
 
         sortType = PlayerPrefs.GetInt("sorttype");
 
-        if(SceneManager.GetActiveScene().name == KeyDictionary.SCENES.HEAPSORT) {
+        if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Quick Sort");
+            startXpos = -6f;
+            objectAmount = 6;
+        }
+
+        if (SceneManager.GetActiveScene().name == KeyDictionary.SCENES.HEAPSORT) {
             generateHeap();
             sortType = KeyDictionary.SORTTYPE.HEAPSORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Heap Sort");
@@ -96,11 +102,10 @@ public class GameManager : MonoBehaviour {
         }
     
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
-            sortType = KeyDictionary.SORTTYPE.BUBBLESORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Bubble Sort");
 
-            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
-            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
+            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
+            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
 
             craneManagerScript.highlightCrane(1,2);
             craneManagerScript.highlightCrane(2,2);
@@ -111,8 +116,8 @@ public class GameManager : MonoBehaviour {
             sortType = KeyDictionary.SORTTYPE.SELECTIONSORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Selection Sort");
 
-            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
-            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
+            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
+            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
 
             craneManagerScript.highlightCrane(1,1);
             craneManagerScript.highlightCrane(2,2);
@@ -123,8 +128,8 @@ public class GameManager : MonoBehaviour {
             sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Insertion Sort");
 
-            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
-            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
+            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
+            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -4), Quaternion.identity) as GameObject;
 
             craneManagerScript.highlightCrane(1, 1);
             craneManagerScript.highlightCrane(2, 2);
@@ -135,20 +140,17 @@ public class GameManager : MonoBehaviour {
             sortType = KeyDictionary.SORTTYPE.SHELLSORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Shell Sort");
 
-            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(startXpos + 0 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
-            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(startXpos + 1 * objectGap, 2.5f, -3), Quaternion.identity) as GameObject;
+            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, 2.5f, -4), Quaternion.identity) as GameObject;
+            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[(carList.Count-1)].transform.position.x, 2.5f, -4), Quaternion.identity) as GameObject;
 
             craneManagerScript.highlightCrane(1,1);
             craneManagerScript.highlightCrane(2,2);
 
             craneManagerScript.maxCranePosition = carList.Count - 1;
             initShell();
-            craneManagerScript.returnCrane(false);
+            //craneManagerScript.returnCrane(false);
         }
-        if (SceneManager.GetActiveScene().name == KeyDictionary.SCENES.QUICKSORT) {
-            sortType = KeyDictionary.SORTTYPE.QUICKSORT;
-            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Quick Sort");
-        }
+        
 
         /*
         if (SceneManager.GetActiveScene().name == KeyDictionary.SCENES.BUBBLESORT) {
@@ -179,6 +181,7 @@ public class GameManager : MonoBehaviour {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Quick Sort");    
         }
         */
+        GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().findIdealSolution();
     }
 
     void generateCars() {
@@ -191,7 +194,7 @@ public class GameManager : MonoBehaviour {
             GameObject car = Instantiate(carObject, new Vector3(startXpos + i * objectGap, startYpos, 0), Quaternion.identity) as GameObject;
 
             #region quicksort
-            if (SceneManager.GetActiveScene().name == KeyDictionary.SCENES.QUICKSORT) {
+            if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
                 //car.GetComponent<BoxClick>().enabled = false;
                 car.GetComponent<BoxCollider2D>().enabled = true;
 
@@ -402,7 +405,7 @@ public class GameManager : MonoBehaviour {
                 mousePosition = Input.mousePosition;
                 mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-                if (mousePosition.x > 3.5f) mousePosition.x = 3.5f;
+                if (mousePosition.x > 6.3f) mousePosition.x = 6.3f;
                 if (mousePosition.x < -6.3f) mousePosition.x = -6.3f;
 
                 chosenQuickObject.transform.position = new Vector3(Mathf.Lerp(chosenQuickObject.transform.position.x, mousePosition.x, moveSpeed * Time.deltaTime),
@@ -425,7 +428,8 @@ public class GameManager : MonoBehaviour {
 
     //Initialize the value of initial gap
     public void initShell() {
-        gapLength = carList.Count / 2;
+        gapLength = (carList.Count - 1);
+        craneManagerScript.cranePosition2 = carList.Count - 1;
     }
 
     public void highlightCar(int carNumber) {
@@ -434,7 +438,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void switchObject() {
+    public bool switchObject() {
+
+        bool canSwitch = true;
 
         #region bubblesort
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) { 
@@ -454,10 +460,13 @@ public class GameManager : MonoBehaviour {
                                                                 carList[position].transform.position.y,
                                                                 carList[position].transform.position.z);
             */
-            carList[position].GetComponent<CarMainScript>().changeNumber(carList[position + 1].GetComponent<CarMainScript>().carNumber);
+            //carList[position].GetComponent<CarMainScript>().changeNumber(carList[position + 1].GetComponent<CarMainScript>().carNumber);
 
-            carList[position + 1].GetComponent<CarMainScript>().changeNumber(tempValue);
+            //carList[position + 1].GetComponent<CarMainScript>().changeNumber(tempValue);
 
+            craneManagerScript.craneOne.GetComponent<ClawScript>().pinchItem(position, position + 1);
+            craneManagerScript.craneTwo.GetComponent<ClawScript>().pinchItem(position + 1, position);
+            /*
             if(position == maxPosition) {
                 Debug.Log("wtf");
                 if (checkIfEndHighest() == true) {
@@ -465,6 +474,7 @@ public class GameManager : MonoBehaviour {
                     craneManagerScript.cranePosition++;
                 }
             }
+            */
         }
         #endregion
 
@@ -480,9 +490,16 @@ public class GameManager : MonoBehaviour {
                 int tempValue = carList[position1].GetComponent<CarMainScript>().carNumber;
                 float tempXPos = carList[position1].transform.position.x;
 
-                carList[position1].GetComponent<CarMainScript>().changeNumber(carList[position2].GetComponent<CarMainScript>().carNumber);
+                craneManagerScript.craneTwo.transform.position = new Vector3(carList[position2].transform.position.x,
+                                                                             craneManagerScript.craneTwo.transform.position.y,
+                                                                             craneManagerScript.craneTwo.transform.position.z);
 
-                carList[position2].GetComponent<CarMainScript>().changeNumber(tempValue);
+                craneManagerScript.craneOne.GetComponent<ClawScript>().pinchItem(position1, position2);
+                craneManagerScript.craneTwo.GetComponent<ClawScript>().pinchItem(position2, position1);
+
+                //carList[position1].GetComponent<CarMainScript>().changeNumber(carList[position2].GetComponent<CarMainScript>().carNumber);
+
+                //carList[position2].GetComponent<CarMainScript>().changeNumber(tempValue);
 
                 //craneManagerScript.returnCrane(false);
                 //waitForSwitch = false;
@@ -490,6 +507,9 @@ public class GameManager : MonoBehaviour {
 
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Objects are switched.");
                 //}
+            }
+            else {
+                canSwitch = false;
             }
         }
         #endregion
@@ -502,10 +522,16 @@ public class GameManager : MonoBehaviour {
 
             int tempValue = carList[cranePositionGreen].GetComponent<CarMainScript>().carNumber;
 
+            /*
             for (int i = cranePositionGreen; i > cranePositionRed; i--) {
-                carList[i].GetComponent<CarMainScript>().changeNumber(carList[i-1].GetComponent<CarMainScript>().carNumber);
+                //carList[i].GetComponent<CarMainScript>().changeNumber(carList[i-1].GetComponent<CarMainScript>().carNumber);
+
             }
-            carList[cranePositionRed].GetComponent<CarMainScript>().changeNumber(tempValue);
+            */
+
+            //carList[cranePositionRed].GetComponent<CarMainScript>().changeNumber(tempValue);
+
+            craneManagerScript.craneTwo.GetComponent<ClawScript>().pinchItem(cranePositionGreen, cranePositionRed);
 
             //int tempValue = carList[targetPosition].GetComponent<CarMainScript>().carNumber;
 
@@ -536,13 +562,17 @@ public class GameManager : MonoBehaviour {
 
         #region shellsort
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-            int position = craneManagerScript.cranePosition;
+            int position1 = craneManagerScript.cranePosition;
             int position2 = craneManagerScript.cranePosition2;
 
-            int tempValue = carList[position].GetComponent<CarMainScript>().carNumber;
-            float tempXPos = carList[position].transform.position.x;
+            craneManagerScript.craneOne.GetComponent<ClawScript>().pinchItem(position1, position2);
+            craneManagerScript.craneTwo.GetComponent<ClawScript>().pinchItem(position2, position1);
 
             /*
+            int tempValue = carList[position1].GetComponent<CarMainScript>().carNumber;
+            float tempXPos = carList[position1].transform.position.x;
+
+            
             carList[position].transform.position = new Vector3( carList[position + 1].transform.position.x,
                                                                 carList[position].transform.position.y,
                                                                 carList[position].transform.position.z);
@@ -550,10 +580,11 @@ public class GameManager : MonoBehaviour {
             carList[position+1].transform.position = new Vector3(tempXPos,
                                                                 carList[position].transform.position.y,
                                                                 carList[position].transform.position.z);
-            */
-            carList[position].GetComponent<CarMainScript>().changeNumber(carList[position2].GetComponent<CarMainScript>().carNumber);
+            
+            carList[position1].GetComponent<CarMainScript>().changeNumber(carList[position2].GetComponent<CarMainScript>().carNumber);
 
             carList[position2].GetComponent<CarMainScript>().changeNumber(tempValue);
+            */
         }
         #endregion
 
@@ -568,6 +599,89 @@ public class GameManager : MonoBehaviour {
 
         }
         #endregion
+
+        return canSwitch;
+    }
+
+    public void moveItems() {
+
+        int cranePositionRed = craneManagerScript.cranePosition;
+        int cranePositionGreen = craneManagerScript.cranePosition2;
+
+        for (int i = cranePositionRed; i < cranePositionGreen; i++) {
+            carList[i].GetComponent<CarMainScript>().moveToPosition(carList[i].transform.position.x + objectGap);
+        }
+    }
+
+    bool craneOneFinished;
+    bool craneTwoFinished;
+
+    int targetObjNumOne = 0;
+    int targetObjNumTwo = 0;
+
+    public void afterSwitch(GameObject craneObj, int posNumber) {
+
+        if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+            afterSwitchInsertion();
+        }
+
+        else {
+            if (craneManagerScript.craneOne == craneObj) {
+                craneOneFinished = true;
+                targetObjNumOne = posNumber;
+            }
+            else if (craneManagerScript.craneTwo == craneObj) {
+                craneTwoFinished = true;
+                targetObjNumTwo = posNumber;
+            }
+
+            if (craneOneFinished == true && craneTwoFinished == true) {
+                craneOneFinished = false;
+                craneTwoFinished = false;
+
+                craneManagerScript.reverseCrane();
+
+                Vector3 tempPos = carList[targetObjNumOne].transform.position;
+
+                carList[targetObjNumOne].transform.position = carList[targetObjNumTwo].transform.position;
+                carList[targetObjNumTwo].transform.position = tempPos;
+
+                int tempNumber = carList[targetObjNumOne].GetComponent<CarMainScript>().carNumber;
+
+                carList[targetObjNumOne].GetComponent<CarMainScript>().changeNumber(carList[targetObjNumTwo].GetComponent<CarMainScript>().carNumber);
+
+                carList[targetObjNumTwo].GetComponent<CarMainScript>().changeNumber(tempNumber);
+
+                programMove.GetComponent<ProgrammableMove>().checkAnimation();
+            }
+        }
+    }
+
+    public void afterSwitchInsertion() {
+
+        int cranePositionRed = craneManagerScript.cranePosition;
+        int cranePositionGreen = craneManagerScript.cranePosition2;
+
+        for (int i = cranePositionRed; i <= cranePositionGreen; i++) {
+            //carList[i].GetComponent<CarMainScript>().changeNumber(carList[i-1].GetComponent<CarMainScript>().carNumber);
+            carList[i].transform.position = new Vector3(startXpos + i * objectGap, carList[i].transform.position.y, carList[i].transform.position.z);
+        }
+
+        int tempValue = carList[cranePositionGreen].GetComponent<CarMainScript>().carNumber;
+
+        for (int i = cranePositionGreen; i > cranePositionRed; i--) {
+            carList[i].GetComponent<CarMainScript>().changeNumber(carList[i-1].GetComponent<CarMainScript>().carNumber);
+        }
+        
+        carList[cranePositionRed].GetComponent<CarMainScript>().changeNumber(tempValue);
+
+        int cranePosition2 = GameObject.Find("CraneObject").GetComponent<CraneManager>().cranePosition2;
+        float craneXPosition = carList[cranePosition2].transform.position.x;
+
+        craneManagerScript.craneTwo.transform.position = new Vector3(craneXPosition,
+                                                                     craneManagerScript.craneTwo.transform.position.y, 
+                                                                     craneManagerScript.craneTwo.transform.position.z);
+        programMove.GetComponent<ProgrammableMove>().checkAnimation();
     }
 
     public void switchObjectHeap(GameObject parent,GameObject child) {
@@ -739,10 +853,12 @@ public class GameManager : MonoBehaviour {
 
         #region shellsort
         if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+
+            Debug.Log(carList[position].GetComponent<CarMainScript>().carNumber + " " + carList[position2].GetComponent<CarMainScript>().carNumber);
             if (carList[position].GetComponent<CarMainScript>().carNumber > carList[position2].GetComponent<CarMainScript>().carNumber) {
-                return false;
+                return true;
             }
-            else return true;
+            else return false;
         }
         #endregion
 
@@ -756,11 +872,13 @@ public class GameManager : MonoBehaviour {
             case KeyDictionary.SORTTYPE.BUBBLESORT:
                 {
                     GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted.");
+                    programMove.setGameOver();
                     break;
                 }
             case KeyDictionary.SORTTYPE.SELECTIONSORT:
                 {
                     GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted.");
+                    programMove.setGameOver();
                     break;
                 }
             case KeyDictionary.SORTTYPE.INSERTIONSORT:
@@ -770,6 +888,7 @@ public class GameManager : MonoBehaviour {
                     }
                     else if(checkIfSorted() == true) {
                         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted.");
+                        programMove.setGameOver();
                     }
                     break;
                 }
@@ -778,6 +897,13 @@ public class GameManager : MonoBehaviour {
         //programMove.addLoop();
 
         //markSorted(0);
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+    }
+
+    public void gameOverTimeout() {
+        programMove.stopRunningProgram();
+        programMove.destroyAllButton();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Time is up");
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
     }
 
@@ -857,6 +983,18 @@ public class GameManager : MonoBehaviour {
             }
         }
         #endregion
+
+        #region shellsort
+        else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+
+            for (int i = 0; i < lastCorrectCarNumberList.Count; i++) {
+                int tempNumber = carList[i].GetComponent<CarMainScript>().carNumber;
+
+                lastCorrectCarNumberList[i] = tempNumber;
+            }
+        }
+        #endregion
+
         Debug.Log(lastHighestNumber);
     }
 
@@ -963,12 +1101,16 @@ public class GameManager : MonoBehaviour {
             
             if(carList[i].GetComponent<CarMainScript>().carNumber > pivotValue) {
                 isSorted = false;
+                Debug.Log(carList[i].GetComponent<CarMainScript>().carNumber);
             }    
         }
+
+        Debug.Log("aw");
 
         for (i = carList.Count - 1; i > pivotIdx; i--) {
             if (carList[i].GetComponent<CarMainScript>().carNumber < pivotValue) {
                 isSorted = false;
+                Debug.Log(carList[i].GetComponent<CarMainScript>().carNumber);
             }
         }
 

@@ -15,7 +15,7 @@ public class BGM_Manager : MonoBehaviour {
 	}
 
     public void changeVolume() {
-        BGMSource.volume = PlayerPrefs.GetInt ("BGM", 1);
+        BGMSource.volume = 0; PlayerPrefs.GetInt ("BGM", 1);
     }
 
 	public void playBGM(int BGMnum){

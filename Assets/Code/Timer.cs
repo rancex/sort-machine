@@ -32,11 +32,10 @@ public class Timer : MonoBehaviour {
 
             yield return new WaitForSeconds(1.0f);
 
-            if(timeLeft == 0) {
-                //SceneManager.LoadScene(KeyDictionary.SCENES.ARCADE);
+            if(timeLeft <= 0) {
+                GameObject.Find("GameManager").GetComponent<GameManager>().gameOverTimeout();
+                break;
             }
-
-
         }
     }
 }
