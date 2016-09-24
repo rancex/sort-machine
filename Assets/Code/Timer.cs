@@ -7,15 +7,12 @@ public class Timer : MonoBehaviour {
 
     private int timeLeft;
     public Text timerText;
+    public Coroutine timeCor;
 
 	// Use this for initialization
 	void Start () {
         timeLeft = 180;
-        StartCoroutine(updateTimerEverySecond());
-	}
-	
-	// Update is called once per frame
-	void Update () { 
+        timeCor = StartCoroutine(updateTimerEverySecond());
 	}
 
     IEnumerator updateTimerEverySecond() {
@@ -37,5 +34,10 @@ public class Timer : MonoBehaviour {
                 break;
             }
         }
+        stopTimer();
+    }
+
+    public void stopTimer() {
+        StopCoroutine(timeCor);
     }
 }

@@ -240,7 +240,7 @@ public class CraneManager : MonoBehaviour {
 
         #region shellsort
         if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-            if (gameManager.GetComponent<GameManager>().checkValue()) {
+            if (gameManager.GetComponent<GameManager>().checkValue() == false) {
                 cranePosition++;
                 cranePosition2++;
 
@@ -348,7 +348,7 @@ public class CraneManager : MonoBehaviour {
             }
 
             else {
-                craneTwo.transform.position = new Vector3(craneOriginalPos + cranePosition2 * gameManager.GetComponent<GameManager>().objectGap, craneOne.transform.position.y);
+                craneTwo.transform.position = new Vector3(gameManager.GetComponent<GameManager>().carList[cranePosition2].transform.position.x, craneOne.transform.position.y);
             }
         }
         #endregion

@@ -7,6 +7,7 @@ public class ProgrammableMove : MonoBehaviour {
     private bool gameOver = false;
 
     public GameObject programButtonPanel;
+    public GameObject addProgramPanel;
 
     public List<int> movesList = new List<int>();
 
@@ -166,9 +167,9 @@ public class ProgrammableMove : MonoBehaviour {
 
         for (int i = 0; i < availableMoveList.Count; i++) {
 
-            float posX = 490f + ((i % 3 * 150f));
+            float posX = 490f + ((i % 2 * 190f));
 
-            float posY = 230f - ((i / 3 * 170));
+            float posY = 250f - ((i / 2 * 190));
 
             GameObject addButtonObj = Instantiate(addButtonPrefab, new Vector3(posX, posY, 0.0f), Quaternion.identity) as GameObject;
 
@@ -249,9 +250,9 @@ public class ProgrammableMove : MonoBehaviour {
 
                 //float posY = 230f - ((i / 3 * 170));
 
-                float posX = -180f + ((movesList.Count % 4 * 100));
+                float posX = -204f + ((movesList.Count % 4 * 106));
 
-                float posY = 160f - ((movesList.Count / 4 * 100));
+                float posY = 216f - ((movesList.Count / 4 * 113));
 
                 movesList.Add(moveType);
 
@@ -284,6 +285,10 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void addMoveRedButton() {
         addMove(KeyDictionary.MOVETYPES.MOVECRANERED, -1);
+    }
+
+    public void addMoveRedReverseButton() {
+        addMove(KeyDictionary.MOVETYPES.MOVECRANEREDLEFT, -1);
     }
 
     public void addSwitchButton() {
@@ -529,6 +534,22 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void addLoop() {
 
+        int sorttype = gameManager.GetComponent<GameManager>().sortType;
+
+        int objectPos = 0;
+
+        if (sorttype == KeyDictionary.SORTTYPE.BUBBLESORT) {
+            objectPos = gameManager.GetComponent<GameManager>().carList.Count - loopDone - 1;
+        }
+        if (sorttype == KeyDictionary.SORTTYPE.SELECTIONSORT) {
+            objectPos = loopDone;
+        }
+        if(sorttype == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+            objectPos = loopDone;
+        }
+
+        gameManager.GetComponent<GameManager>().carList[objectPos].GetComponent<CarMainScript>().markSortedLight();
+
         //gameManager.GetComponent<GameManager>().markSorted(craneManager.GetComponent<CraneManager>().cranePosition);
         if (gameOver == false) {
             gameManager.GetComponent<GameManager>().startNextLoop();
@@ -544,6 +565,8 @@ public class ProgrammableMove : MonoBehaviour {
         loopFinished = false;
         manageLoopNumber();
         destroyAllButton();
+
+        
     }
 
     //check how many loops are done and how many are left
@@ -551,6 +574,8 @@ public class ProgrammableMove : MonoBehaviour {
         for(int i = 0;i < loopDone; i++) {
             tickSymbolList[i].GetComponent<TickSymbolScript>().switchColor();
         }
+
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeLoopTextNum(loopDone + 1);
     }
 
     public void stopRunningProgram() {

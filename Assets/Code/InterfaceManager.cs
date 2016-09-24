@@ -9,8 +9,11 @@ public class InterfaceManager : MonoBehaviour {
     public GameObject controllerGeneral;
     public GameObject controllerSelection;
     public GameObject gameOverController;
-    public Text infoText;
 
+    public Text infoText;
+    public Text loopText;
+
+    public Timer timer;
 
     // Use this for initialization
     void Start () {
@@ -19,8 +22,10 @@ public class InterfaceManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            SceneChooser.returnMainMenu();
+        }
+    }
 
     public void changeInfoText(string info) {
         infoText.text = info;
@@ -46,7 +51,10 @@ public class InterfaceManager : MonoBehaviour {
     }
 
     public void retryGame() {
-        SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        if (PlayerPrefs.GetInt("sorttype") == KeyDictionary.SORTTYPE.QUICKSORT) {
+            SceneManager.LoadScene(KeyDictionary.SCENES.QUICKSORT);
+        }
+        else SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
     }
 
     public void returnToMainMenu() {
@@ -55,5 +63,13 @@ public class InterfaceManager : MonoBehaviour {
 
     public void returnToArcade() {
         SceneManager.LoadScene(KeyDictionary.SCENES.ARCADE);
+    }
+
+    public void changeLoopTextNum(int num) {
+        loopText.text = "Loop " + num;
+    }
+
+    public void stopTimer() {
+        timer.stopTimer();
     }
 }

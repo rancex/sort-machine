@@ -87,7 +87,6 @@ public class BoxClick : MonoBehaviour {
     
 
     void OnTriggerEnter2D(Collider2D col) {
-        //Debug.Log(col.tag);
         if (GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
             if (GameObject.Find("GameManager").GetComponent<GameManager>().chosenQuickObject == this.gameObject) {
                 if (col.tag == "SwitchTrigger") {

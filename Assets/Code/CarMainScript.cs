@@ -7,6 +7,8 @@ public class CarMainScript : MonoBehaviour {
 
     public GameObject carObject;
 
+    public GameObject sortedLightObject;
+
     public int carNumber;
     public int carIdx;
 
@@ -18,6 +20,8 @@ public class CarMainScript : MonoBehaviour {
 
     public bool canMove = true;
 
+    public int sorttype = 0;
+
     private string SortingLayerName = "Default";
     private int SortingOrder = 2;
 
@@ -27,9 +31,13 @@ public class CarMainScript : MonoBehaviour {
 
         txtNumber.GetComponent<MeshRenderer>().sortingLayerName = SortingLayerName;
         txtNumber.GetComponent<MeshRenderer>().sortingOrder = SortingOrder;
+
+        setSortType();
     }
 
-    
+    public void setSortType() {
+        sorttype = GameObject.Find("GameManager").GetComponent<GameManager>().sortType;
+    }
 
     void Awake() {
         
@@ -37,7 +45,6 @@ public class CarMainScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-	
 	}
 
     public void insertNumber(int number) {
@@ -75,7 +82,7 @@ public class CarMainScript : MonoBehaviour {
     }
 
     public void moveToPosition(float xPos) {
-        StartCoroutine(smoothMoveToPosition(1.0f,xPos));
+        StartCoroutine(smoothMoveToPosition(2.0f,xPos));
     }
 
     IEnumerator smoothMoveToPosition(float time, float targetPos) {
@@ -103,5 +110,29 @@ public class CarMainScript : MonoBehaviour {
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    IEnumerator smoothMoveToTriggerWithNum(float time, int trigIdx) {
+        Transform targetPos = GameObject.Find("GameManager").GetComponent<GameManager>().triggerList[trigIdx].transform;
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < time) {
+            this.transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPos.position.x, (elapsedTime / time)),
+                                                  transform.position.y,
+                                                  -1.0f);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        GameObject.Find("IdealSolver").GetComponent<IdealSolutionQuicksort>().runNextSolveProblem();
+    }
+
+    public void autoMoveToTriggerNum(int triggerNum) {
+        StartCoroutine(smoothMoveToTriggerWithNum(1.0f,triggerNum));
+    }
+
+    public void markSortedLight() {
+        sortedLightObject.SetActive(true);
     }
 }

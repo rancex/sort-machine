@@ -78,6 +78,11 @@ public class ProgramButtonScript : MonoBehaviour {
                 }
             case KeyDictionary.MOVETYPES.MOVECRANERED:
                 {
+                    if(GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+                        if (this.transform.localScale.x > 0) {
+                            this.transform.localScale = new Vector3((-this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                        }
+                    }
                     render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.NormalMoveCraneRed);
                     break;
                 }
@@ -118,6 +123,11 @@ public class ProgramButtonScript : MonoBehaviour {
                 }
             case KeyDictionary.MOVETYPES.MOVECRANERED:
                 {
+                    if (GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+                        if (this.transform.localScale.x > 0) {
+                            this.transform.localScale = new Vector3((-this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+                        }
+                    }
                     render.sprite = spriteManager.GetComponent<ButtonArtDB>().returnSprite(KeyDictionary.BUTTONSPRITES.HighlightGreenMoveCraneRed);
                     break;
                 }

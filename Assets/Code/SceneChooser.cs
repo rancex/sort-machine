@@ -26,7 +26,7 @@ public static class SceneChooser{
 
     public static void startHeapSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.HEAPSORT);
-        Debug.Log("UNDER CONSTRUCTION");
+        SceneManager.LoadScene(KeyDictionary.SCENES.HEAPSORT);
     }
 
     public static void startMergeSort() {
@@ -37,5 +37,10 @@ public static class SceneChooser{
     public static void startQuickSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.QUICKSORT);
         SceneManager.LoadScene(KeyDictionary.SCENES.QUICKSORT);
+    }
+
+    public static void returnMainMenu() {
+        PlayerPrefs.SetInt("sorttype", 0);
+        SceneManager.LoadScene(KeyDictionary.SCENES.MAINMENU);
     }
 }

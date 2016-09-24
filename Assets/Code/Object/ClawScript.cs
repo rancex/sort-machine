@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ClawScript : MonoBehaviour {
 
+    public GameObject spotLight;
+
     public GameObject outlineEffect;
 
     public int clawNumber;
@@ -38,7 +40,6 @@ public class ClawScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         anim = this.GetComponent<Animator>();
-        //pinchItem(1,3);
     }
 
     bool isPlaying = false;
@@ -260,7 +261,7 @@ public class ClawScript : MonoBehaviour {
 
         clawNumber = newClawNumber;
 
-        OutlineEffect[] oleList = GameObject.Find("Main Camera").GetComponents<OutlineEffect>();//.outlineRenderers.Add(outlineEffect.GetComponent<Renderer>());
+        OutlineEffect[] oleList = GameObject.Find("Camera").GetComponents<OutlineEffect>();//.outlineRenderers.Add(outlineEffect.GetComponent<Renderer>());
 
 
         bool found = false;
@@ -283,8 +284,43 @@ public class ClawScript : MonoBehaviour {
                     found = true;
                 }
             }
+        }   
+    }
+
+    public void changeSpriteToSpotlight() {
+
+        disableAllRenderer(this.gameObject);
+
+        /*
+        Transform[] sr = this.gameObject.GetComponentsInChildren<Transform>();
+
+        for (int i = 0; i < sr.Length; i++) {
+            sr[i].gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            Transform[] sr2 = sr[i].gameObject.GetComponentsInChildren<Transform>();
+            if (sr2.Length > 0) {
+                for (int j = 0; j < sr2.Length; j++) {
+                    sr2[j].gameObject.GetComponentInChildren<Transform>();
+                }
+            }
+        }
+        */
+
+        spotLight.SetActive(true);
+    }
+
+    public void disableAllRenderer(GameObject g) {
+        Transform[] sr = g.GetComponentsInChildren<Transform>();
+
+        Debug.Log(sr.Length);
+        
+        for (int i = 0; i < sr.Length; i++) {
+            SpriteRenderer srObj = sr[i].gameObject.GetComponent<SpriteRenderer>();
+
+            if (srObj != null) srObj.enabled = false;
+                
         }
 
-        
+        Outline.SetActive(false);
     }
 }
