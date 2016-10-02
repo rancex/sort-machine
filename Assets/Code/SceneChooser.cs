@@ -11,17 +11,17 @@ public static class SceneChooser{
 
     public static void startSelectionSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SELECTIONSORT);
-        SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        SceneManager.LoadScene(KeyDictionary.SCENES.SELECTIONSORT);
     }
 
     public static void startInsertionSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.INSERTIONSORT);
-        SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        SceneManager.LoadScene(KeyDictionary.SCENES.INSERTIONSORT);
     }
 
     public static void startShellSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SHELLSORT);
-        SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        SceneManager.LoadScene(KeyDictionary.SCENES.SHELLSORT);
     }
 
     public static void startHeapSort() {
@@ -31,7 +31,7 @@ public static class SceneChooser{
 
     public static void startMergeSort() {
         PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.MERGESORT);
-        Debug.Log("UNDER CONSTRUCTION");
+        SceneManager.LoadScene(KeyDictionary.SCENES.MERGESORT);
     }
 
     public static void startQuickSort() {
@@ -42,5 +42,46 @@ public static class SceneChooser{
     public static void returnMainMenu() {
         PlayerPrefs.SetInt("sorttype", 0);
         SceneManager.LoadScene(KeyDictionary.SCENES.MAINMENU);
+    }
+
+    public static void replayStage() {
+        int sorttype = PlayerPrefs.GetInt("sorttype", 0);
+        switch (sorttype) {
+            case KeyDictionary.SORTTYPE.BUBBLESORT:
+                {
+                    startBubbleSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.SELECTIONSORT:
+                {
+                    startSelectionSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.INSERTIONSORT:
+                {
+                    startInsertionSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.SHELLSORT:
+                {
+                    startShellSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.MERGESORT:
+                {
+                    startMergeSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.HEAPSORT:
+                {
+                    startHeapSort();
+                    break;
+                }
+            case KeyDictionary.SORTTYPE.QUICKSORT:
+                {
+                    startQuickSort();
+                    break;
+                }
+        }
     }
 }

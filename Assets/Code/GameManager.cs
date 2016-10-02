@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.INSERTIONSORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SHELLSORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.QUICKSORT);
-        PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.HEAPSORT);
+        //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.HEAPSORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.MERGESORT);
 
         sortType = PlayerPrefs.GetInt("sorttype");
@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
         if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Quick Sort");
             startXpos = -6f;
+            objectAmount = 6;
         }
 
         if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
@@ -133,11 +134,11 @@ public class GameManager : MonoBehaviour {
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
             craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[1].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
 
-            craneManagerScript.highlightCrane(1, 1);
-            craneManagerScript.highlightCrane(2, 2);
-
             craneManagerScript.craneOne.GetComponent<ClawScript>().changeSpriteToSpotlight();
 
+            craneManagerScript.highlightCrane(1, 1);
+            craneManagerScript.highlightCrane(2, 2);
+            
             craneManagerScript.maxCranePosition = carList.Count - 1;
         }
         if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {

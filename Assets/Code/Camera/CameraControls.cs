@@ -14,10 +14,26 @@ public class CameraControls : MonoBehaviour {
     public bool isZoomingIn = false;
     public bool isZoomingOut = false;
 
+    public int sortType = -1;
+
+    private float cameraXLimitLeft = 0.0f;
+    private float cameraXLimitRight = 0.0f;
+    private float cametaYlimit = 0.0f;
+
 	// Use this for initialization
 	void Start () {
+        sortType = PlayerPrefs.GetInt("sorttype");
         targetCamera = this.GetComponent<Camera>();
-	}
+
+        if (sortType == KeyDictionary.SORTTYPE.MERGESORT) {
+            cameraXLimitLeft = -5.8f;
+            cameraXLimitRight = 5.8f;
+        }
+        else {
+            cameraXLimitLeft = -4.8f;
+            cameraXLimitRight = 4.8f;
+        }
+    }
 
     public float dragSpeed = 2;
     private Vector3 dragOrigin;
@@ -32,12 +48,12 @@ public class CameraControls : MonoBehaviour {
             if (!Input.GetMouseButton(0)) return;
 
             Vector3 pos = targetCamera.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-            Vector3 move = new Vector3(pos.x * dragSpeed * -1f, 0, pos.y * dragSpeed);
+            Vector3 move = new Vector3(pos.x * dragSpeed * -1f, 0.0f,0.0f);
 
             transform.Translate(move, Space.World);
 
-            if (targetCamera.transform.position.x < -5.8) targetCamera.transform.position = new Vector3(-5.8f, targetCamera.transform.position.y, targetCamera.transform.position.z);
-            if (targetCamera.transform.position.x > 5.8) targetCamera.transform.position = new Vector3(5.8f, targetCamera.transform.position.y, targetCamera.transform.position.z);
+            if (targetCamera.transform.position.x < cameraXLimitLeft) targetCamera.transform.position = new Vector3(cameraXLimitLeft, targetCamera.transform.position.y, targetCamera.transform.position.z);
+            if (targetCamera.transform.position.x > cameraXLimitRight) targetCamera.transform.position = new Vector3(cameraXLimitRight, targetCamera.transform.position.y, targetCamera.transform.position.z);
         }
 
         if (isZoomingIn == true) {

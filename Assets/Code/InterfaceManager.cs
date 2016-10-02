@@ -32,6 +32,7 @@ public class InterfaceManager : MonoBehaviour {
     }
 
     public void disableControls() {
+        if(controllerGeneral != null)
         controllerGeneral.SetActive(false);
         //controllerSelection.SetActive(false);
     }
@@ -51,10 +52,7 @@ public class InterfaceManager : MonoBehaviour {
     }
 
     public void retryGame() {
-        if (PlayerPrefs.GetInt("sorttype") == KeyDictionary.SORTTYPE.QUICKSORT) {
-            SceneManager.LoadScene(KeyDictionary.SCENES.QUICKSORT);
-        }
-        else SceneManager.LoadScene(KeyDictionary.SCENES.BUBBLESORT);
+        SceneChooser.replayStage();
     }
 
     public void returnToMainMenu() {

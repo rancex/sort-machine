@@ -20,6 +20,10 @@ public class DocumentScript : MonoBehaviour {
 
     public Coroutine cor;
 
+    public bool clickable = false;
+
+    public SpriteRenderer outlineRenderer;
+
     // Use this for initialization
     void Start () {
 	
@@ -47,6 +51,10 @@ public class DocumentScript : MonoBehaviour {
         docNumber = number;
     }
 
+    public void decideSize() {
+
+    }
+
     public void decidePosition() {
         if (childDirection != 0) {
             if (childDirection == KeyDictionary.TREECHILDDIRECTION.LEFT) {
@@ -70,7 +78,7 @@ public class DocumentScript : MonoBehaviour {
             }
         }
         else if(childDirection == 0) {
-            this.transform.position = new Vector3(0f,
+            this.transform.position = new Vector3(1f,
                                                   3f,
                                                   0f);
         }
@@ -107,9 +115,9 @@ public class DocumentScript : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        Debug.Log("Clicked");
-        Debug.Log(id);
-        GameObject.Find("GameManager").GetComponent<GameManager>().chosenHeapObject = this.gameObject;
+        if (clickable == true) {
+            GameObject.Find("GameManager").GetComponent<HeapSortGameManager>().switchObject(this.gameObject);
+        }
     }
 
     public void moveToTriggerPosition(float time) {
@@ -141,6 +149,32 @@ public class DocumentScript : MonoBehaviour {
                                                   0.0f);
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    /// <summary>
+    /// 0 = None
+    /// 1 = green
+    /// 2 = yellow
+    /// 3 = red
+    /// </summary>
+    /// <param name="color"></param>
+    public void modifyOutline(int color) {
+
+        if(color == 0) {
+            outlineRenderer.enabled = false;
+        }
+        else if(color == 1) {
+            outlineRenderer.enabled = true;
+            outlineRenderer.color = new Color(0.0f, 255.0f, 0.0f);
+        }
+        else if (color == 2) {
+            outlineRenderer.enabled = true;
+            outlineRenderer.color = new Color(255.0f, 255.0f, 0.0f);
+        }
+        else if (color == 3) {
+            outlineRenderer.enabled = true;
+            outlineRenderer.color = new Color(255.0f, 0.0f, 0.0f);
         }
     }
 

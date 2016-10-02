@@ -270,16 +270,26 @@ public class ClawScript : MonoBehaviour {
 
             if (found == false) {
                 if (ole.outlineRenderers.Count <= 0) {
-                    ole.outlineRenderers.Add(outlineEffect.GetComponent<Renderer>());
-                    if (clawNumber == 1) {
-                        ole.lineColor0 = Color.red;
-                        ole.lineColor1 = Color.red;
-                        ole.lineColor2 = Color.red;
+                    if (spotLight.activeSelf == true) {
+                        ole.outlineRenderers.Add(spotLight.GetComponent<Renderer>());
+                        if (clawNumber == 1) {
+                            ole.lineColor0 = Color.white;
+                            ole.lineColor1 = Color.white;
+                            ole.lineColor2 = Color.white;
+                        }
                     }
-                    else if (clawNumber == 2) {
-                        ole.lineColor0 = Color.green;
-                        ole.lineColor1 = Color.green;
-                        ole.lineColor2 = Color.green;
+                    else {
+                        ole.outlineRenderers.Add(outlineEffect.GetComponent<Renderer>());
+                        if (clawNumber == 1) {
+                            ole.lineColor0 = Color.red;
+                            ole.lineColor1 = Color.red;
+                            ole.lineColor2 = Color.red;
+                        }
+                        else if (clawNumber == 2) {
+                            ole.lineColor0 = Color.green;
+                            ole.lineColor1 = Color.green;
+                            ole.lineColor2 = Color.green;
+                        }
                     }
                     found = true;
                 }

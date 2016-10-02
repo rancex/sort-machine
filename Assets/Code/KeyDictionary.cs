@@ -14,10 +14,10 @@ public static class KeyDictionary{
     }
 
     public static class SCENES {
-        public const string BUBBLESORT = "BubbleSort";
-        public const string SELECTIONSORT = "SelectionSort";
-        public const string INSERTIONSORT = "InsertionSort";
-        public const string SHELLSORT = "ShellSort";
+        public const string BUBBLESORT = "BasicSort";
+        public const string SELECTIONSORT = "BasicSort";
+        public const string INSERTIONSORT = "BasicSort";
+        public const string SHELLSORT = "BasicSort";
         public const string HEAPSORT = "HeapSort";
         public const string MERGESORT = "MergeSort";
         public const string QUICKSORT = "QuickSort2";
