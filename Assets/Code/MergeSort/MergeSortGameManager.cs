@@ -9,14 +9,16 @@ public class MergeSortGameManager : MonoBehaviour {
 
     public List<GameObject> mergeList;
 
-    private int objAmount = 8;
+    private int objAmount = 4;
 
     private float startingXPos = -8.0f;
     private float startingYPos = -9.0f;
 
     public List<List<GameObject>> listOfMergeList;
 
-    
+    public List<List<GameObject>> tempListOfMergeList;
+
+    public GameObject lastMovedObject;
 
     // Use this for initialization
     void Start () {
@@ -27,12 +29,43 @@ public class MergeSortGameManager : MonoBehaviour {
         tempList = new List<GameObject>();
 
         startNextLevel();
+
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome To Merge Sort");
     }
-	
+
+    // 0 = nothing
+    // 1 = isWaitingForMovement
+    // 2 = isWaitingForNextLevel
+    // 3 = startNextLevel
+    private int steps = 0;
+
 	// Update is called once per frame
 	void Update () {
-	
+	    if(steps == 3) {
+            startNextLevel();
+        }
 	}
+
+    void gameOver() {
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Merge Sort Completed");
+        this.GetComponent<MergeIdealSolver>().gameOver = true;
+
+        GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+    }
+
+    public void finishedMovingObject(GameObject g) {
+
+        if (steps == 1) {
+            steps = 0;
+        }
+        else if (steps == 2) {
+            if (g == lastMovedObject) {
+                steps = 3;
+            }
+        }
+
+    }
 
     void generateMerge() {
 
@@ -54,17 +87,38 @@ public class MergeSortGameManager : MonoBehaviour {
        
     }
 
-    private int levelPos = 0;
+    public int levelPos = 0;
     private int horizontalPos = 0;
 
-    private int lastStep = 0;
+    public int lastStep = 0;
 
     private int maxCheck;
 
     void startNextLevel() {
-        levelPos++;
-        maxCheck = objAmount / levelPos;
-        lastStep = 0;
+
+        steps = 0;
+
+        float maxSize = Mathf.Pow(2, levelPos);
+
+        if (maxSize >= objAmount) {
+            gameOver();
+        }
+        else {
+            
+            levelPos++;
+            maxCheck = objAmount / levelPos;
+            lastStep = 0;
+
+            tempListOfMergeList = new List<List<GameObject>>(listOfMergeList);
+
+            highlightClickable();
+
+            foreach(List<GameObject> list in listOfMergeList) {
+                foreach(GameObject g in list) {
+                    g.GetComponent<BoxClickMerge>().saveOriginalPosition();
+                }
+            }
+        }
     }
 
     void highlightClickable() {
@@ -111,76 +165,164 @@ public class MergeSortGameManager : MonoBehaviour {
 
     public void addToNextList(GameObject g) {
 
-        float maxSize = Mathf.Pow(2, levelPos);
+        if (steps == 0) {
 
-        int listPosition;
+            float maxSize = Mathf.Pow(2, levelPos);
 
-        if (lastStep == 0)
-            listPosition = 0;
-        else {
-            listPosition = lastStep / (int)maxSize;
-        }
+            int listPosition;
 
-        
-
-        if (tempList.Count == 0) {
-
-            leftMostXPos = 0.75f * (maxSize / 2);
-            float leftX = listOfMergeList[listPosition][listOfMergeList[listPosition].Count - 1].transform.position.x;
-            float rightX = listOfMergeList[listPosition + 1][0].transform.position.x;
-
-            middleXPos = leftX + ((rightX - leftX) / 2f);
-        }
-
-        if (tempList.Count < maxSize) {
-          
-            float xPos = 0;
-            float yPos = 0;
-
-            /*
-            if (listPosition % 2 == 0) {
-                leftX = listOfMergeList[listPosition][listOfMergeList[listPosition].Count - 1].transform.position.x;
-                rightX = listOfMergeList[listPosition + 1][0].transform.position.x;
-            }
+            if (lastStep == 0)
+                listPosition = 0;
             else {
-                leftX = listOfMergeList[listPosition - 1][listOfMergeList[listPosition].Count - 1].transform.position.x;
-                rightX = listOfMergeList[listPosition][0].transform.position.x;
+                listPosition = lastStep / (int)maxSize;
             }
-            */
 
-            Debug.Log(leftMostXPos);
-            Debug.Log(middleXPos);
+            int ownListIndex;
 
-            xPos = ((middleXPos - leftMostXPos) + tempList.Count * 1.5f);
+            if (g.GetComponent<CarMainScript>().carIdx == 0)
+                ownListIndex = 0;
+            else {
+                ownListIndex = g.GetComponent<CarMainScript>().carIdx / levelPos;
+            }
 
-            yPos = startingYPos - (2.0f * levelPos);
+            if (tempList.Count == 0) {
 
-            g.GetComponent<BoxClickMerge>().moveToPosition(xPos, yPos);
+                Debug.Log(ownListIndex);
 
-            g.GetComponent<BoxClickMerge>().clickable = false;
-            g.GetComponent<BoxClickMerge>().modifyOutline(2);
+                float leftX;
+                float rightX;
 
-            tempList.Add(g);
+                leftMostXPos = 0.75f * (maxSize / 2);
 
-            lastStep++;
+                if (ownListIndex % 2 == 0) {
+                    leftX = listOfMergeList[ownListIndex][listOfMergeList[ownListIndex].Count - 1].transform.position.x;
+                    rightX = listOfMergeList[ownListIndex + 1][0].transform.position.x;
+                }
+                else {
+                    leftX = listOfMergeList[ownListIndex - 1][listOfMergeList[ownListIndex].Count - 1].transform.position.x;
+                    rightX = listOfMergeList[ownListIndex][0].transform.position.x;
+                }
+
+                middleXPos = leftX + ((rightX - leftX) / 2f);
+            }
+
+            if (tempList.Count < maxSize) {
+
+                float xPos = 0;
+                float yPos = 0;
+
+                /*
+                if (listPosition % 2 == 0) {
+                    leftX = listOfMergeList[listPosition][listOfMergeList[listPosition].Count - 1].transform.position.x;
+                    rightX = listOfMergeList[listPosition + 1][0].transform.position.x;
+                }
+                else {
+                    leftX = listOfMergeList[listPosition - 1][listOfMergeList[listPosition].Count - 1].transform.position.x;
+                    rightX = listOfMergeList[listPosition][0].transform.position.x;
+                }
+                */
+
+                xPos = ((middleXPos - leftMostXPos) + tempList.Count * 1.5f);
+
+                yPos = startingYPos - (2.0f * levelPos);
+
+                g.GetComponent<BoxClickMerge>().moveToPosition(xPos, yPos);
+
+                g.GetComponent<BoxClickMerge>().clickable = false;
+                g.GetComponent<BoxClickMerge>().modifyOutline(2);
+
+                tempListOfMergeList[ownListIndex].RemoveAt(0);
+
+                if (tempListOfMergeList[ownListIndex].Count > 0) {
+                    tempListOfMergeList[ownListIndex][0].GetComponent<BoxClickMerge>().modifyOutline(1);
+                    tempListOfMergeList[ownListIndex][0].GetComponent<BoxClickMerge>().clickable = true;
+                }
+
+                steps = 1;
+
+                tempList.Add(g);
+                lastStep++;
+            }
+
+            if (tempList.Count == maxSize) {
+
+                Debug.Log("full");
+
+                if (checkSorted() == true) {
+                    listOfMergeList[listPosition].Clear();
+
+                    foreach (GameObject node in tempList) {
+                        listOfMergeList[listPosition].Add(node);
+                    }
+
+                    tempList.Clear();
+
+                    if (lastStep >= objAmount) {
+                        steps = 2;
+                        lastMovedObject = g;
+                    }
+                    else {
+                        highlightClickable();
+                    }
+
+                    GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Correct!");
+                }
+
+                else {
+                    GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Objects Are Not Sorted");
+
+                }
+            }
+        }
+    }
+
+    public bool checkSorted() {
+        int tempValue = -1;
+
+        bool sorted = true;
+
+        tempValue = tempList[0].GetComponent<CarMainScript>().carNumber;
+
+        foreach (GameObject g in tempList) {
+            if (sorted == true) {
+                int targetNumber = g.GetComponent<CarMainScript>().carNumber;
+
+                if (targetNumber >= tempValue) tempValue = targetNumber;
+                else {
+                    sorted = false;
+                }
+            }
         }
 
-        Debug.Log(tempList.Count);
-        Debug.Log(maxSize);
+        return sorted;
+    }
+    
+    public void resetPosition() {
+        if (this.GetComponent<MergeIdealSolver>().isSolving == false) {
+            if (steps == 0) {
 
-        if(tempList.Count == maxSize) {
+                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("");
 
-            Debug.Log("full");
+                for (int i = tempList.Count - 1; i >= 0; i--) {
+                    int ownListIndex;
 
-            listOfMergeList[listPosition].Clear();
-            
-            foreach(GameObject node in tempList) {
-                listOfMergeList[listPosition].Add(node);
+                    if (tempList[i].GetComponent<CarMainScript>().carIdx == 0)
+                        ownListIndex = 0;
+                    else {
+                        ownListIndex = tempList[i].GetComponent<CarMainScript>().carIdx / levelPos;
+                    }
+
+                    tempList[i].GetComponent<BoxClickMerge>().returnToOriginalPos();
+
+                    tempListOfMergeList[ownListIndex].Insert(0, tempList[i]);
+                }
+
+                lastStep = lastStep - tempList.Count;
+
+                highlightClickable();
+
+                tempList.Clear();
             }
-
-            highlightClickable();
-
-            tempList.Clear();
         }
     }
 }

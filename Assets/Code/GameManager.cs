@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> triggerList = new List<GameObject>();
     public GameObject pivotPoint;
     public bool waitingForPivot = true;
+
+    public List<GameObject> remainingObject = new List<GameObject>();
     //----------------------------------------
 
     //Heap Sort-------------------------------
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour {
 
     public GameObject TVMask;
 
+    public bool isSolving = false;
+
     // Use this for initialization
     void Start() {
 
@@ -101,6 +105,9 @@ public class GameManager : MonoBehaviour {
         }
         else {
             generateCars();
+            if(sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
+                randomPickQuicksort();
+            }
         }
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
@@ -145,13 +152,13 @@ public class GameManager : MonoBehaviour {
             sortType = KeyDictionary.SORTTYPE.SHELLSORT;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Shell Sort");
 
-            /*
-            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, 2.5f, -4), Quaternion.identity) as GameObject;
-            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[(carList.Count-1)].transform.position.x, 2.5f, -4), Quaternion.identity) as GameObject;
-            */
+            
+            craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
+            craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[(carList.Count-1)].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
+            
 
-            craneManagerScript.craneOne.transform.position = new Vector3(carList[0].transform.position.x, 2.5f, -4);
-            craneManagerScript.craneTwo.transform.position = new Vector3(carList[(carList.Count - 1)].transform.position.x, 2.5f, -4);
+            //craneManagerScript.craneOne.transform.position = new Vector3(carList[0].transform.position.x, 2.5f, -4);
+            //craneManagerScript.craneTwo.transform.position = new Vector3(carList[(carList.Count - 1)].transform.position.x, 2.5f, -4);
 
             craneManagerScript.highlightCrane(1, 1);
             craneManagerScript.highlightCrane(2, 2);
@@ -230,6 +237,8 @@ public class GameManager : MonoBehaviour {
             car.SetActive(true);
 
             lastCorrectCarNumberList.Add(numberList[i]);
+
+            remainingObject.Add(car);
 
             if (highestNumber < numberList[i]) highestNumber = numberList[i];
 
@@ -915,6 +924,13 @@ public class GameManager : MonoBehaviour {
                     }
                     break;
                 }
+            case KeyDictionary.SORTTYPE.QUICKSORT:
+                {
+                    GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted.");
+                    programMove.setGameOver();
+                    GameObject.Find("IdealSolver").GetComponent<IdealSolutionQuicksort>().isComplete = true;
+                    break;
+                }
         }
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted.");
         //programMove.addLoop();
@@ -1166,6 +1182,9 @@ public class GameManager : MonoBehaviour {
             if(isFinished == true) {
                 gameOver();
             }
+            else {
+                randomPickQuicksort();
+            }
         }
         else {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Lower Values must be on the left and higher values must be on the right");
@@ -1173,5 +1192,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void randomPickQuicksort() {
+        int randIndex = Random.Range(0, remainingObject.Count);
 
+        remainingObject[randIndex].GetComponent<BoxClick>().setSelfAsTempPivot();
+
+        remainingObject.RemoveAt(randIndex);
+    }
 }

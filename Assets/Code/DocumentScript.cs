@@ -116,8 +116,12 @@ public class DocumentScript : MonoBehaviour {
 
     void OnMouseDown() {
         if (clickable == true) {
-            GameObject.Find("GameManager").GetComponent<HeapSortGameManager>().switchObject(this.gameObject);
+            switchObjectWithChosen();
         }
+    }
+
+    public void switchObjectWithChosen() {
+        GameObject.Find("GameManager").GetComponent<HeapSortGameManager>().switchObject(this.gameObject);
     }
 
     public void moveToTriggerPosition(float time) {

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class IdealSolutionQuicksort : MonoBehaviour {
 
     public GameManager gameManager;
-    public List<int> pivotedPosition = new List<int>(); 
 
 	// Use this for initialization
 	void Start () {
@@ -22,16 +21,13 @@ public class IdealSolutionQuicksort : MonoBehaviour {
     public List<GameObject> rightPartition = new List<GameObject>();
 
     bool isSolving = false;
-    bool isComplete = false;
+    public bool isComplete = false;
 
     bool isInit = false;
 
     public void initList() {
         int numberOfObject = gameManager.carList.Count;
 
-        for (int i = 0; i < numberOfObject; i++) {
-            pivotedPosition.Add(i);
-        }
         isInit = true;
 
         originalRefList = new List<GameObject>(gameManager.carList);
@@ -45,6 +41,7 @@ public class IdealSolutionQuicksort : MonoBehaviour {
 
             if (isInit == false) initList();
 
+            /*
             int randPosition = Random.Range(0, pivotedPosition.Count);
 
             pivotPosition = pivotedPosition[randPosition];
@@ -57,10 +54,14 @@ public class IdealSolutionQuicksort : MonoBehaviour {
 
             Debug.Log("K" + " " + pivotObject.GetComponent<CarMainScript>().carNumber + " " + pivotedPosition.Count);
 
-            lastStep = 0;
-
+            
             
             gameManager.markObjectQuick(pivotObject);
+            */
+
+            lastStep = 0;
+
+            pivotObject = gameManager.pivotPoint;
 
             bool pivotBorderFound = false;
 
@@ -140,14 +141,7 @@ public class IdealSolutionQuicksort : MonoBehaviour {
             Debug.Log("mark");
             gameManager.putPivotQuick();
 
-            if (pivotedPosition.Count > 0) {
-                StartCoroutine(waitForSolveProblem());
-            }
-            else {
-                Debug.Log("complete");
-
-                isComplete = true;
-            }
+            StartCoroutine(waitForSolveProblem());
         }
 
         if (changePartition == false) {

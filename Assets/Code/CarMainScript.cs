@@ -110,6 +110,8 @@ public class CarMainScript : MonoBehaviour {
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+
+        StopCoroutine(cor);
     }
 
     IEnumerator smoothMoveToTriggerWithNum(float time, int trigIdx) {

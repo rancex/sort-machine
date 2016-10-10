@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class HeapSortGameManager : MonoBehaviour {
 
+    public HeapIdealSolve heapIdealSolve;
+
     public float sortedInitialXPos = -7.5f;
     public float sortedInitialYPos = -4f;
     public float sortedInitialZPos = -2f;
@@ -35,7 +37,7 @@ public class HeapSortGameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        
+        heapIdealSolve = this.GetComponent<HeapIdealSolve>();
 
         generateHeap();
 
@@ -50,6 +52,13 @@ public class HeapSortGameManager : MonoBehaviour {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Heap Sort");
     }
 	
+    void gameOver() {
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted");
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+
+        GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+    }
+
     public void startNextHeap() {
         //heapList[heapList.Count - 1]
         
@@ -96,8 +105,7 @@ public class HeapSortGameManager : MonoBehaviour {
 
                 StartCoroutine(smoothMoveDocumentPosition(chosenHeapObject, sortedAreaPos, targetSortedSize, 1.0f));
 
-                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted");
-                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+                gameOver();
             }
         }
         
@@ -184,9 +192,6 @@ public class HeapSortGameManager : MonoBehaviour {
 
             parentNum = g.GetComponent<DocumentScript>().docNumber;
             if(g.GetComponent<DocumentScript>().leftChild != null) {
-
-                Debug.Log(parentNum);
-                Debug.Log(g.GetComponent<DocumentScript>().leftChild.GetComponent<DocumentScript>().docNumber);
                 if(parentNum > g.GetComponent<DocumentScript>().leftChild.GetComponent<DocumentScript>().docNumber) {
                     highLightIncorrect(g);
                     heapIsCorrect = false;
@@ -401,6 +406,11 @@ public class HeapSortGameManager : MonoBehaviour {
 
                 saveNumberOriginalPosition();
             }
+            else {
+                if (heapIdealSolve.isSolving == true) {
+                    heapIdealSolve.isWaitingForNextSolve = true;
+                }
+            }
         }
     }
 
@@ -468,7 +478,13 @@ public class HeapSortGameManager : MonoBehaviour {
             isMovingToSortedArea = false;
             isHeapifying = false;
 
-            if(heapList.Count > 0)  highlightClickable(chosenHeapObject);
+            if (heapList.Count > 0) {
+                highlightClickable(chosenHeapObject);
+
+                if(heapIdealSolve.isSolving == true) {
+                    heapIdealSolve.isWaitingForNextSolve = true;
+                }
+            }
         }
     }
 }

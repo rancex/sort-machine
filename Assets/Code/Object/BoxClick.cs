@@ -33,7 +33,11 @@ public class BoxClick : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().waitingForPivot) {
+        setSelfAsTempPivot();
+    }
+
+    public void setSelfAsTempPivot() {
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().waitingForPivot && this.GetComponent<CarMainScript>().isPivot == false) {
             GameObject.Find("GameManager").GetComponent<GameManager>().markObjectQuick(this.gameObject);
 
             GameObject.Find("GameManager").GetComponent<GameManager>().waitingForPivot = false;
