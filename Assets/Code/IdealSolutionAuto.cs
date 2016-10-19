@@ -13,6 +13,7 @@ public class IdealSolutionAuto : MonoBehaviour {
 
     public int sorttype;
 
+
 	// Use this for initialization
 	void Start () {
         //sorttype = KeyDictionary.SORTTYPE.BUBBLESORT;
@@ -37,8 +38,6 @@ public class IdealSolutionAuto : MonoBehaviour {
             stepsNeeded = 0;
 
             int finishedLoop = 0;
-
-            Debug.Log("Numbers :" + numberList[0] + " " + numberList[1] + " " + numberList[2] + " " + numberList[3]);
 
             for (int i = 0;i < numberList.Count; i++) {
                 int border = numberList.Count - finishedLoop - 1;

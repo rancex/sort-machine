@@ -6,8 +6,11 @@ using UnityEngine.SceneManagement;
 public class InterfaceManager : MonoBehaviour {
 
     public GameObject optionsPanel;
+    public GameObject scorePanel;
+    public GameObject tutorialPanel;
+
     public GameObject controllerGeneral;
-    public GameObject controllerSelection;
+    //public GameObject controllerSelection;
     public GameObject gameOverController;
 
     public Text infoText;
@@ -15,14 +18,21 @@ public class InterfaceManager : MonoBehaviour {
 
     public Timer timer;
 
+    public Score scoreManager;
+
+    public Text rankText;
+    public Text victoryText;
+    public Text timeElapsedText;
+
     // Use this for initialization
     void Start () {
-	
+        scoreManager = this.GetComponent<Score>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Escape)) {
+            PlayerPrefs.SetInt("returnFromGame", 1);
             SceneChooser.returnMainMenu();
         }
     }
@@ -67,7 +77,51 @@ public class InterfaceManager : MonoBehaviour {
         loopText.text = "Loop " + num;
     }
 
+    public void showScoreInterface(bool win) {
+
+        scorePanel.SetActive(true);
+
+        if (win == true) {
+            int topScorePos = scoreManager.saveTimeToLeaderboard(timer.getTime());
+            victoryText.text = "YOU COMPLETED THE SORT";
+            timeElapsedText.text = "Time : " + timer.getTime();
+
+            if (topScorePos != -1) {
+                rankText.text = "You ranked #" + (topScorePos + 1);
+                string targetObject = "RankScore" + (topScorePos + 1);
+                GameObject.Find(targetObject).GetComponent<Text>().fontStyle = FontStyle.Bold;
+                Debug.Log(targetObject);
+            }
+        }
+
+        scoreManager.showLeaderboard();
+    }
+    
+    public void hideScoreInterface() {
+        scorePanel.SetActive(false);
+    }
+
     public void stopTimer() {
         timer.stopTimer();
+    }
+
+    public void startTimer() {
+        timer.startTimer();
+    }
+
+    public void showTutorialPanel() {
+        toggleInfoPanel();
+        tutorialPanel.SetActive(true);
+        tutorialPanel.GetComponent<InfoTutorial>().showInitialPage();
+    }
+
+    public void hideTutorialPanel() {
+        toggleInfoPanel();
+        tutorialPanel.SetActive(false);
+    }
+
+    public void buttonExitPress() {
+        PlayerPrefs.SetInt("returnFromGame", 1);
+        SceneChooser.returnMainMenu();
     }
 }

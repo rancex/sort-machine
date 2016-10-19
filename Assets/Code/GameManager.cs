@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
     public float startYpos = -13.0f;
 
     //Decides the amount of objects in the scene
-    public int objectAmount = 6;
+    public int objectAmount = 5;
 
     public GameObject TVMask;
 
@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+        //PlayerPrefs.DeleteAll();
 
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.BUBBLESORT);
         //PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SELECTIONSORT);
@@ -939,6 +941,7 @@ public class GameManager : MonoBehaviour {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
 
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().stopTimer();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
     }
 
     public void gameOverTimeout() {
@@ -946,6 +949,7 @@ public class GameManager : MonoBehaviour {
         programMove.destroyAllButton();
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Time is up");
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(false);
     }
 
     //

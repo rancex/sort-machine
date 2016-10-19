@@ -49,6 +49,8 @@ public class MergeSortGameManager : MonoBehaviour {
     void gameOver() {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Merge Sort Completed");
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+
         this.GetComponent<MergeIdealSolver>().gameOver = true;
 
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();

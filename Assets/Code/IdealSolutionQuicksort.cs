@@ -37,7 +37,9 @@ public class IdealSolutionQuicksort : MonoBehaviour {
 
     public void solveProblem() {
 
-        if (isComplete == false) {
+        if (isComplete == false && isSolving == false) {
+
+            isSolving = true;
 
             if (isInit == false) initList();
 

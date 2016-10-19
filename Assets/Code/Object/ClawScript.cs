@@ -333,4 +333,8 @@ public class ClawScript : MonoBehaviour {
 
         Outline.SetActive(false);
     }
+
+    IEnumerator waitForSecondBeforeMoving() {
+        yield return new WaitForSeconds(1.0f);
+    }
 }

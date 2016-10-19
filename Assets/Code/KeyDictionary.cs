@@ -57,4 +57,13 @@ public static class KeyDictionary{
         public const int NormalMark = 12;
        
     }
+
+    public static class TUTORIALSPRITES {
+        public const int TutorialPageOne = 1;
+        public const int TutorialPageTwo = 2;
+        public const int TutorialPageThree = 3;
+        public const int TutorialPageFour = 4;
+
+        public const int BubbleSortTutorial = 10;
+    }
 }

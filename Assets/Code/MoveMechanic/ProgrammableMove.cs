@@ -193,10 +193,14 @@ public class ProgrammableMove : MonoBehaviour {
             animationIsRunning = true;
             stopRunningProgram();
 
+           
+
             if (loopFinished == false) {
+
                 lastStepNumber = -1;
                 restartProgram();
                 if (movesList.Count > 0) {
+                    GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().stopTimer();
                     runNextCommand();
                 }
                 else {
@@ -303,10 +307,12 @@ public class ProgrammableMove : MonoBehaviour {
         int stepNumber = 0;
         for (stepNumber = 0; stepNumber < buttonList.Count; stepNumber++) {
 
-            float posX = moveButtonXPos + ((stepNumber % 4 * 1));
-            float posY = moveButtonYPos - ((stepNumber / 4 * 1));
+            float posX = -204f + ((stepNumber % 4 * 106));
 
-            buttonList[stepNumber].GetComponent<Transform>().position = new Vector3(posX, posY, -1);
+            float posY = 216f - ((stepNumber / 4 * 113));
+            
+
+            buttonList[stepNumber].GetComponent<Transform>().localPosition = new Vector3(posX, posY, 0f);
             buttonList[stepNumber].GetComponent<ProgramButtonScript>().setMoveIndex(stepNumber);
         }
     }
@@ -353,7 +359,10 @@ public class ProgrammableMove : MonoBehaviour {
 
         lastStepNumber++;
 
-        if (lastStepNumber >= movesList.Count) { isDoingProgram = false; }
+        if (lastStepNumber >= movesList.Count) {
+            isDoingProgram = false;
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().startTimer();
+        }
 
         else {
             //to mark if the program works correctly
@@ -589,6 +598,8 @@ public class ProgrammableMove : MonoBehaviour {
 
 
     public void runIdealSolution() {
+
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().disableControls();
 
         if (movesList.Count > 0) {
             destroyAllButton();

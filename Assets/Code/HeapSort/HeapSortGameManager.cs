@@ -55,6 +55,7 @@ public class HeapSortGameManager : MonoBehaviour {
     void gameOver() {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted");
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
 
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
     }

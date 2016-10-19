@@ -47,13 +47,18 @@ public class CameraControls : MonoBehaviour {
 
             if (!Input.GetMouseButton(0)) return;
 
-            Vector3 pos = targetCamera.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-            Vector3 move = new Vector3(pos.x * dragSpeed * -1f, 0.0f,0.0f);
+            float positionDifference = Input.mousePosition.x - dragOrigin.x;
 
-            transform.Translate(move, Space.World);
+            if (positionDifference != 0) {
 
-            if (targetCamera.transform.position.x < cameraXLimitLeft) targetCamera.transform.position = new Vector3(cameraXLimitLeft, targetCamera.transform.position.y, targetCamera.transform.position.z);
-            if (targetCamera.transform.position.x > cameraXLimitRight) targetCamera.transform.position = new Vector3(cameraXLimitRight, targetCamera.transform.position.y, targetCamera.transform.position.z);
+                Vector3 pos = targetCamera.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+                Vector3 move = new Vector3(pos.x * dragSpeed * -1f, 0.0f, 0.0f);
+
+                transform.Translate(move, Space.World);
+
+                if (targetCamera.transform.position.x < cameraXLimitLeft) targetCamera.transform.position = new Vector3(cameraXLimitLeft, targetCamera.transform.position.y, targetCamera.transform.position.z);
+                if (targetCamera.transform.position.x > cameraXLimitRight) targetCamera.transform.position = new Vector3(cameraXLimitRight, targetCamera.transform.position.y, targetCamera.transform.position.z);
+            }
         }
 
         if (isZoomingIn == true) {
