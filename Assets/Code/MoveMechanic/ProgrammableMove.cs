@@ -54,9 +54,15 @@ public class ProgrammableMove : MonoBehaviour {
         numberOfSteps = 0;
 
         numberOfLoop = gameManager.GetComponent<GameManager>().objectAmount - 1;
-        for(int i = 0;i < numberOfLoop; i++) {
-            GameObject tick = Instantiate(tickSymbol, new Vector3((4.6f + 0.6f * i), 4.6f, 0.0f), Quaternion.identity) as GameObject;
-            tickSymbolList.Add(tick);
+
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.BUBBLESORT ||
+            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT ||
+            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SELECTIONSORT ||
+            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+            for (int i = 0; i < numberOfLoop; i++) {
+                GameObject tick = Instantiate(tickSymbol, new Vector3((4.6f + 0.6f * i), 4.6f, 0.0f), Quaternion.identity) as GameObject;
+                tickSymbolList.Add(tick);
+            }
         }
 
         loopFinished = false;

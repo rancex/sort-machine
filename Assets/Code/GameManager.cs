@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour {
     public GameObject cranePrefab;
 
 
-    private float startXpos = -6.5f;
-    private float startYpos = -11.5f;
+    public float startXpos = -6.5f;
+    public float startYpos = -11.5f;
 
     //Decides the amount of objects in the scene
     public int objectAmount = 5;

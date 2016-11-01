@@ -35,11 +35,16 @@ public class IdealSolutionQuicksort : MonoBehaviour {
         gameManager.isAutoSolvingQuick = true;
     }
 
+    public void solveProblemBtnClick() {
+        if(isSolving == false) {
+            isSolving = true;
+            solveProblem();
+        }
+    }
+
     public void solveProblem() {
 
-        if (isComplete == false && isSolving == false) {
-
-            isSolving = true;
+        if (isComplete == false) {
 
             if (isInit == false) initList();
 
@@ -198,6 +203,7 @@ public class IdealSolutionQuicksort : MonoBehaviour {
 
             lastStep++;
             if(moveBox == false) {
+                
                 runNextSolveProblem();
                 //StartCoroutine(waitForNextProblem());
             }
