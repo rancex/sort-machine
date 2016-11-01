@@ -111,17 +111,20 @@ public class InterfaceManager : MonoBehaviour {
 
     public void showTutorialPanel() {
         toggleInfoPanel();
-        tutorialPanel.SetActive(true);
         tutorialPanel.GetComponent<InfoTutorial>().showInitialPage();
+        tutorialPanel.SetActive(true);
     }
 
     public void hideTutorialPanel() {
-        toggleInfoPanel();
         tutorialPanel.SetActive(false);
     }
 
     public void buttonExitPress() {
         PlayerPrefs.SetInt("returnFromGame", 1);
         SceneChooser.returnMainMenu();
+    }
+
+    public void openSurvey() {
+        SceneChooser.openSurvey();
     }
 }

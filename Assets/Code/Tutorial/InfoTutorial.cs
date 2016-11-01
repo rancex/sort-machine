@@ -8,7 +8,7 @@ public class InfoTutorial : MonoBehaviour {
 
     private List<GameObject> tutorialImageObjects = new List<GameObject>();
 
-    public List<Sprite> tutorialSprites = new List<Sprite>();
+    public List<Sprite> basicTutorialSprites = new List<Sprite>();
     public List<Sprite> heapSortImages = new List<Sprite>();
     public List<Sprite> mergeSortImages = new List<Sprite>();
     public List<Sprite> quickSortImages = new List<Sprite>();
@@ -35,16 +35,16 @@ public class InfoTutorial : MonoBehaviour {
         else {
 
             if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
-                amountOfPages = tutorialSprites.Count;
+                amountOfPages = basicTutorialSprites.Count;
             }
             else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
-                amountOfPages = tutorialSprites.Count;
+                amountOfPages = basicTutorialSprites.Count;
             }
             else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
-                amountOfPages = tutorialSprites.Count;
+                amountOfPages = basicTutorialSprites.Count;
             }
             else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-                amountOfPages = tutorialSprites.Count;
+                amountOfPages = basicTutorialSprites.Count;
             }
             else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
                 amountOfPages = heapSortImages.Count;
@@ -56,7 +56,7 @@ public class InfoTutorial : MonoBehaviour {
                 amountOfPages = quickSortImages.Count;
             }
 
-            instantiateImage();
+            //instantiateImage();
             
         }
         this.gameObject.SetActive(false);
@@ -67,6 +67,11 @@ public class InfoTutorial : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetMouseButtonDown(0)) {
+            showNextPage();
+            return;
+        }
+        /*
         if (Input.GetMouseButtonDown(0)) {
             dragOrigin = Input.mousePosition;
             return;
@@ -86,6 +91,7 @@ public class InfoTutorial : MonoBehaviour {
                 
             }
         }
+        */
     }
 
     IEnumerator smoothMoveToPosition(float time, float targetPos) {
@@ -115,23 +121,50 @@ public class InfoTutorial : MonoBehaviour {
     */
 
     public Sprite returnTutorialSpriteByPage(int tutorialNum) {
-        return tutorialSprites[tutorialNum];
+
+        sortType = PlayerPrefs.GetInt("sorttype", 0);
+
+        if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
+            return basicTutorialSprites[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
+            return basicTutorialSprites[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+            return basicTutorialSprites[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+            return basicTutorialSprites[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
+            return heapSortImages[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.MERGESORT) {
+            return mergeSortImages[tutorialNum];
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
+            return quickSortImages[tutorialNum];
+        }
+
+        else return basicTutorialSprites[tutorialNum];
     }
 
     public void showInitialPage() {
         pageNum = 0;
-        tutorialContainer.transform.localPosition = new Vector3(0.0f, tutorialContainer.transform.localPosition.y, tutorialContainer.transform.localPosition.z);
+        tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+        //tutorialContainer.transform.localPosition = new Vector3(0.0f, tutorialContainer.transform.localPosition.y, tutorialContainer.transform.localPosition.z);
         //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
     }
 
     public void showNextPage() {
         pageNum++;
         if(pageNum < amountOfPages) {
-            //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
-            StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
+            tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+            //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
         }
         else {
             pageNum = amountOfPages - 1;
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().hideTutorialPanel();
         }
         
     }
@@ -139,8 +172,8 @@ public class InfoTutorial : MonoBehaviour {
     public void showPrevPage() {
         pageNum--;
         if (pageNum >= 0) {
-            StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
-            //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+            //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
+            tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
         }
         else {
             pageNum = 0;
@@ -152,20 +185,20 @@ public class InfoTutorial : MonoBehaviour {
         List<Sprite> tempList = new List<Sprite>();
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
             amountOfPages = heapSortImages.Count;
@@ -195,20 +228,20 @@ public class InfoTutorial : MonoBehaviour {
         List<Sprite> tempList = new List<Sprite>();
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-            amountOfPages = tutorialSprites.Count;
-            tempList = tutorialSprites;
+            amountOfPages = basicTutorialSprites.Count;
+            tempList = basicTutorialSprites;
         }
         else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
             amountOfPages = heapSortImages.Count;
@@ -222,6 +255,7 @@ public class InfoTutorial : MonoBehaviour {
             amountOfPages = quickSortImages.Count;
             tempList = quickSortImages;
         }
+
 
         if (tutorialImageObjects.Count == 0) {
             for (int i = 0; i < 5; i++) {
@@ -240,5 +274,9 @@ public class InfoTutorial : MonoBehaviour {
             }
         }
         closeButton.transform.SetAsLastSibling();
+    }
+
+    public void clickForNextPage() {
+        
     }
 }

@@ -55,7 +55,7 @@ public class ProgrammableMove : MonoBehaviour {
 
         numberOfLoop = gameManager.GetComponent<GameManager>().objectAmount - 1;
         for(int i = 0;i < numberOfLoop; i++) {
-            GameObject tick = Instantiate(tickSymbol, new Vector3((4.5f + 0.5f * i), 4.5f, 0.0f), Quaternion.identity) as GameObject;
+            GameObject tick = Instantiate(tickSymbol, new Vector3((4.6f + 0.6f * i), 4.6f, 0.0f), Quaternion.identity) as GameObject;
             tickSymbolList.Add(tick);
         }
 
@@ -234,29 +234,11 @@ public class ProgrammableMove : MonoBehaviour {
     public void addMove(int moveType,int movePos) {
         if (movePos == -1) {
 
-            /*
-            if (isDoingProgram == false) {
-                float posX = moveButtonXPos + ((movesList.Count % 4 * 1));
-
-                float posY = moveButtonYPos - ((movesList.Count / 4 * 1));
-
-                movesList.Add(moveType);
-
-                GameObject buttonObj = Instantiate(buttonObject, new Vector3(posX, posY, -1f), Quaternion.identity) as GameObject;
-                buttonObj.GetComponent<ProgramButtonScript>().setMoveType(moveType);
-                buttonObj.GetComponent<ProgramButtonScript>().setMoveIndex(movesList.Count - 1);
-
-                buttonList.Add(buttonObj);
-            }*/
             if (isDoingProgram == false) {
 
-                //float posX = 490f + ((i % 3 * 150f));
+                float posX = -181f + ((movesList.Count % 4 * 103));
 
-                //float posY = 230f - ((i / 3 * 170));
-
-                float posX = -204f + ((movesList.Count % 4 * 106));
-
-                float posY = 216f - ((movesList.Count / 4 * 113));
+                float posY = 202f - ((movesList.Count / 4 * 103));
 
                 movesList.Add(moveType);
 

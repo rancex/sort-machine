@@ -180,4 +180,8 @@ public class MainMenu : MonoBehaviour {
     public void hideTutorial() {
         tutorialPanel.SetActive(false);
     }
+
+    public void openSurvey() {
+        SceneChooser.openSurvey();
+    }
 }

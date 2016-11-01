@@ -46,19 +46,22 @@ public static class Shuffler{
     public static List<int> shuffleList(List<int> numberList) {
         //1 Determine the length of the array (len).
         int len = numberList.Count;
-        //2 Loop through each of the values between len and one, decrementing the loop control variable (lcv) for each iteration.
+        //2 Loop through each of the values between len and one, 
+        //decrementing the loop control variable (lcv) for each iteration.
         for(int i = len - 1;i > 0; i--) {
             //3 Randomly select a value(n) between one and the current lcv.
             int randomIdx = Random.Range(0, i + 1);
 
             //4 Swap the contents of the array elements at indexes n and lcv.
-            //This moves the randomly selected element beyond the indexes that will be considered in the next iteration.
+            //This moves the randomly selected element 
+            //beyond the indexes that will be considered in the next iteration.
 
             int tempValue = numberList[randomIdx];
             numberList[randomIdx] = numberList[i];
             numberList[i] = tempValue;
 
-            //5 Continue the loop, restarting the randomisation process from step 3 with a lower lcv.
+            //5 Continue the loop, restarting the 
+            //randomisation process from step 3 with a lower lcv.
         }
 
         return numberList;

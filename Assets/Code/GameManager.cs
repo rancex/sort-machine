@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour {
     public GameObject cranePrefab;
 
 
-    public float startXpos = -6.5f;
-    public float startYpos = -13.0f;
+    private float startXpos = -6.5f;
+    private float startYpos = -11.5f;
 
     //Decides the amount of objects in the scene
     public int objectAmount = 5;
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour {
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Bubble Sort");
-
+            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
             craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[1].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -126,6 +126,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
             sortType = KeyDictionary.SORTTYPE.SELECTIONSORT;
+            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Selection Sort");
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -138,6 +139,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
             sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
+            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Insertion Sort");
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -152,6 +154,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
             sortType = KeyDictionary.SORTTYPE.SHELLSORT;
+            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Shell Sort");
 
             
@@ -425,15 +428,6 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     void moveObjectWhenTouching() {
 
-        /*
-        float distance = transform.position.z - Camera.main.transform.position.z;
-        Vector3 targetPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-        targetPos = Camera.main.ScreenToWorldPoint(targetPos);
-
-        Vector3 followXonly = new Vector3(targetPos.x, transform.position.y, transform.position.z);
-        chosenQuickObject.transform.position = Vector3.Lerp(transform.position, followXonly, 2.0f * Time.deltaTime);
-        
-        */
         if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
             if (chosenQuickObject.GetComponent<CarMainScript>().canMove == true) {
                 mousePosition = Input.mousePosition;
@@ -442,7 +436,9 @@ public class GameManager : MonoBehaviour {
                 if (mousePosition.x > 6.3f) mousePosition.x = 6.3f;
                 if (mousePosition.x < -6.3f) mousePosition.x = -6.3f;
 
-                chosenQuickObject.transform.position = new Vector3(Mathf.Lerp(chosenQuickObject.transform.position.x, mousePosition.x, moveSpeed * Time.deltaTime),
+                chosenQuickObject.transform.position = new Vector3(Mathf.Lerp(chosenQuickObject.transform.position.x, 
+                                                                              mousePosition.x, 
+                                                                              moveSpeed * Time.deltaTime),
                                                                    chosenQuickObject.transform.position.y,
                                                                    -1.0f);
 

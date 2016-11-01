@@ -444,13 +444,6 @@ public class HeapSortGameManager : MonoBehaviour {
 
         StartCoroutine(smoothMoveDocumentPosition(chosenHeapObject, clickedHeapPosition, clickedHeapSize, 1.0f));
         StartCoroutine(smoothMoveDocumentPosition(clickedObject, chosenHeapPosition, chosenHeapSize, 1.0f));
-
-        /*
-        
-        */
-        //highlightClickable(chosenHeapObject.GetComponent<DocumentScript>().id);
-
-
     }
 
     IEnumerator smoothMoveDocumentPosition(GameObject targetObject, Vector3 targetPos, Vector3 targetSize, float time) {

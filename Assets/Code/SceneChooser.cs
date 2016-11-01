@@ -45,6 +45,10 @@ public static class SceneChooser{
         SceneManager.LoadScene(KeyDictionary.SCENES.MAINMENU);
     }
 
+    public static void openSurvey() {
+        Application.OpenURL("https://rancex.typeform.com/to/n99v4Y");
+    }
+
     public static void replayStage() {
         int sorttype = PlayerPrefs.GetInt("sorttype", 0);
         switch (sorttype) {

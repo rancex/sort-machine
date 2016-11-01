@@ -172,24 +172,15 @@ public class MergeSortGameManager : MonoBehaviour {
             float maxSize = Mathf.Pow(2, levelPos);
 
             int listPosition;
-
-            if (lastStep == 0)
-                listPosition = 0;
-            else {
-                listPosition = lastStep / (int)maxSize;
-            }
-
             int ownListIndex;
 
-            if (g.GetComponent<CarMainScript>().carIdx == 0)
-                ownListIndex = 0;
-            else {
-                ownListIndex = g.GetComponent<CarMainScript>().carIdx / levelPos;
-            }
+            if (lastStep == 0) listPosition = 0;
+            else listPosition = lastStep / (int)maxSize;                
 
+            if (g.GetComponent<CarMainScript>().carIdx == 0) ownListIndex = 0;
+            else ownListIndex = g.GetComponent<CarMainScript>().carIdx / levelPos;
+            
             if (tempList.Count == 0) {
-
-                Debug.Log(ownListIndex);
 
                 float leftX;
                 float rightX;
@@ -213,23 +204,10 @@ public class MergeSortGameManager : MonoBehaviour {
                 float xPos = 0;
                 float yPos = 0;
 
-                /*
-                if (listPosition % 2 == 0) {
-                    leftX = listOfMergeList[listPosition][listOfMergeList[listPosition].Count - 1].transform.position.x;
-                    rightX = listOfMergeList[listPosition + 1][0].transform.position.x;
-                }
-                else {
-                    leftX = listOfMergeList[listPosition - 1][listOfMergeList[listPosition].Count - 1].transform.position.x;
-                    rightX = listOfMergeList[listPosition][0].transform.position.x;
-                }
-                */
-
                 xPos = ((middleXPos - leftMostXPos) + tempList.Count * 1.5f);
-
                 yPos = startingYPos - (2.0f * levelPos);
 
                 g.GetComponent<BoxClickMerge>().moveToPosition(xPos, yPos);
-
                 g.GetComponent<BoxClickMerge>().clickable = false;
                 g.GetComponent<BoxClickMerge>().modifyOutline(2);
 
@@ -247,8 +225,6 @@ public class MergeSortGameManager : MonoBehaviour {
             }
 
             if (tempList.Count == maxSize) {
-
-                Debug.Log("full");
 
                 if (checkSorted() == true) {
                     listOfMergeList[listPosition].Clear();
