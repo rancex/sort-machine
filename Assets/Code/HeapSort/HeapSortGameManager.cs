@@ -7,15 +7,15 @@ public class HeapSortGameManager : MonoBehaviour {
 
     public HeapIdealSolve heapIdealSolve;
 
-    public float sortedInitialXPos = -7.5f;
-    public float sortedInitialYPos = -4f;
-    public float sortedInitialZPos = -2f;
+    private float sortedInitialXPos = -7.5f;
+    private float sortedInitialYPos = -2.67f;
+    private float sortedInitialZPos = -2f;
 
     //The Prefab for Documents
     public GameObject docObject;
 
     public GameObject sortedArea;
-    private Vector3 targetSortedSize = new Vector3(0.35f, 0.35f, 0.35f);
+    private Vector3 targetSortedSize = new Vector3(0.85f, 0.85f, 1f);
 
     public List<GameObject> heapList;
     public GameObject chosenHeapObject = null;
@@ -231,7 +231,7 @@ public class HeapSortGameManager : MonoBehaviour {
 
         for (treeIdx = 0; treeIdx < objAmount; treeIdx++) {
 
-            GameObject node = Instantiate(docObject, new Vector3(1, 0, 0), Quaternion.identity) as GameObject;
+            GameObject node = Instantiate(docObject, new Vector3(3, 0, 0), Quaternion.identity) as GameObject;
 
             node.GetComponent<DocumentScript>().insertId(treeIdx);
 
@@ -269,7 +269,9 @@ public class HeapSortGameManager : MonoBehaviour {
             //------------------------
 
             heapList.Add(node);
-            
+
+            dehighlightClickable(node);
+
             /*
             GameObject trigger = Instantiate(heapSwitchTrigger, node.transform.position, Quaternion.identity) as GameObject;
             trigger.transform.localScale = new Vector2(node.transform.localScale.x * 4, node.transform.localScale.y * 3);

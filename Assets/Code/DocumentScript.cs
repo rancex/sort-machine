@@ -26,7 +26,7 @@ public class DocumentScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-	
+	   
 	}
 	
 	// Update is called once per frame
@@ -55,6 +55,11 @@ public class DocumentScript : MonoBehaviour {
 
     }
 
+    private float xScaleGap = 3f;
+    private float xScaleGapExtra = 2f;
+
+    private float yScaleGap = 2.5f;
+
     public void decidePosition() {
         if (childDirection != 0) {
             if (childDirection == KeyDictionary.TREECHILDDIRECTION.LEFT) {
@@ -62,8 +67,8 @@ public class DocumentScript : MonoBehaviour {
                 this.transform.localScale = new Vector3(parent.transform.localScale.x * 0.75f,
                                                         parent.transform.localScale.y * 0.75f,
                                                         parent.transform.localScale.z);
-                this.transform.position = new Vector3(parent.transform.position.x - (8f * this.transform.localScale.x) + (2.5f * (1f - this.transform.localScale.x)),
-                                                      parent.transform.position.y - (5f * this.transform.localScale.y),
+                this.transform.position = new Vector3(parent.transform.position.x - (xScaleGap * this.transform.localScale.x) + (xScaleGapExtra * (1f - this.transform.localScale.x)),
+                                                      parent.transform.position.y - (yScaleGap * this.transform.localScale.y),
                                                       parent.transform.position.z - 1);
             }
             else if (childDirection == KeyDictionary.TREECHILDDIRECTION.RIGHT) {
@@ -72,14 +77,14 @@ public class DocumentScript : MonoBehaviour {
                 this.transform.localScale = new Vector3(parent.transform.localScale.x * 0.75f,
                                                         parent.transform.localScale.y * 0.75f,
                                                         parent.transform.localScale.z);
-                this.transform.position = new Vector3(parent.transform.position.x + (8f * this.transform.localScale.x) - (2.5f * (1f - this.transform.localScale.x)),
-                                                      parent.transform.position.y - (5f * this.transform.localScale.y),
+                this.transform.position = new Vector3(parent.transform.position.x + (xScaleGap * this.transform.localScale.x) - (xScaleGapExtra * (1f - this.transform.localScale.x)),
+                                                      parent.transform.position.y - (yScaleGap * this.transform.localScale.y),
                                                       parent.transform.position.z - 1);
             }
         }
         else if(childDirection == 0) {
-            this.transform.position = new Vector3(1f,
-                                                  3f,
+            this.transform.position = new Vector3(2.72f,
+                                                  3.5f,
                                                   0f);
         }
     }

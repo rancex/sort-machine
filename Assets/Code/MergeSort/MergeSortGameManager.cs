@@ -11,7 +11,7 @@ public class MergeSortGameManager : MonoBehaviour {
 
     private int objAmount = 4;
 
-    private float startingXPos = -8.0f;
+    private float startingXPos = -6.0f;
     private float startingYPos = -9.0f;
 
     public List<List<GameObject>> listOfMergeList;
@@ -205,7 +205,7 @@ public class MergeSortGameManager : MonoBehaviour {
                 float yPos = 0;
 
                 xPos = ((middleXPos - leftMostXPos) + tempList.Count * 1.5f);
-                yPos = startingYPos - (2.0f * levelPos);
+                yPos = startingYPos - (2.7f * levelPos);
 
                 g.GetComponent<BoxClickMerge>().moveToPosition(xPos, yPos);
                 g.GetComponent<BoxClickMerge>().clickable = false;

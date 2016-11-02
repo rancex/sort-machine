@@ -48,6 +48,12 @@ public class ProgrammableMove : MonoBehaviour {
     public GameObject craneOne = null;
     public GameObject craneTwo = null;
 
+    private float moveExecuteXPos = -181f;
+    private float moveExecuteYPos = 202f;
+
+    private float moveExecuteGap = 103f;
+
+
     // Use this for initialization
     void Start () {
 
@@ -242,9 +248,9 @@ public class ProgrammableMove : MonoBehaviour {
 
             if (isDoingProgram == false) {
 
-                float posX = -181f + ((movesList.Count % 4 * 103));
+                float posX = moveExecuteXPos + ((movesList.Count % 4 * moveExecuteGap));
 
-                float posY = 202f - ((movesList.Count / 4 * 103));
+                float posY = moveExecuteYPos - ((movesList.Count / 4 * moveExecuteGap));
 
                 movesList.Add(moveType);
 
@@ -295,9 +301,9 @@ public class ProgrammableMove : MonoBehaviour {
         int stepNumber = 0;
         for (stepNumber = 0; stepNumber < buttonList.Count; stepNumber++) {
 
-            float posX = -204f + ((stepNumber % 4 * 106));
+            float posX = moveExecuteXPos + ((stepNumber % 4 * moveExecuteGap));
 
-            float posY = 216f - ((stepNumber / 4 * 113));
+            float posY = moveExecuteYPos - ((stepNumber / 4 * moveExecuteGap));
             
 
             buttonList[stepNumber].GetComponent<Transform>().localPosition = new Vector3(posX, posY, 0f);

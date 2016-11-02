@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class BoxClick : MonoBehaviour {
 
@@ -33,7 +34,7 @@ public class BoxClick : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        setSelfAsTempPivot();
+            //setSelfAsTempPivot();
     }
 
     public void setSelfAsTempPivot() {
