@@ -136,7 +136,6 @@ public class IdealSolutionAuto : MonoBehaviour {
 
         #region insertionsort
         if(sorttype == KeyDictionary.SORTTYPE.INSERTIONSORT) {
-            Debug.Log("wew");
 
             stepsNeeded = 0;
 
@@ -214,7 +213,7 @@ public class IdealSolutionAuto : MonoBehaviour {
             for (int i = 1; gapLength > 1; i++) {
           
                 for (int j = 0; j < numberList.Count - gapLength; j++) {
-                    if (numberList[j] < numberList[j + gapLength]) {
+                    if (numberList[j] > numberList[j + gapLength]) {
                         moveList.Add(KeyDictionary.MOVETYPES.SWITCHOBJECT);
                         stepsNeeded++;
                         moveList.Add(KeyDictionary.MOVETYPES.MOVECRANEGREEN);

@@ -46,12 +46,14 @@ public class BoxClickMerge : MonoBehaviour {
         }
     }
 
-    void OnMouseDown() {
+    public void onTouched() {
         if (clickable == true) {
             if ( GameObject.Find("GameManager").GetComponent<MergeIdealSolver>().isSolving == false) 
             addSelfToNextList();
         }
     }
+
+
 
     public void addSelfToNextList() {
        

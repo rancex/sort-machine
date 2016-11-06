@@ -46,6 +46,10 @@ public class InterfaceManager : MonoBehaviour {
         controllerGeneral.SetActive(false);
         //controllerSelection.SetActive(false);
     }
+    public void enableControls() {
+        if (controllerGeneral != null)
+            controllerGeneral.SetActive(true);
+    }
 
     public void toggleGameOverControls() {
         disableControls();

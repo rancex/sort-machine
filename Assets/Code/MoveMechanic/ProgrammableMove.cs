@@ -31,7 +31,7 @@ public class ProgrammableMove : MonoBehaviour {
     //number of loops done
     public int loopDone = 0;
 
-    private int numberOfLoop;
+    public int numberOfLoop;
 
     //private bool coroutineRunning;
 
@@ -61,14 +61,17 @@ public class ProgrammableMove : MonoBehaviour {
 
         numberOfLoop = gameManager.GetComponent<GameManager>().objectAmount - 1;
 
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.BUBBLESORT ||
-            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.INSERTIONSORT ||
-            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SELECTIONSORT ||
-            GameObject.Find("GameManager").GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+        int sorttype = PlayerPrefs.GetInt("sorttype", 1);
+
+        if (sorttype == KeyDictionary.SORTTYPE.BUBBLESORT ||
+            sorttype == KeyDictionary.SORTTYPE.INSERTIONSORT ||
+            sorttype == KeyDictionary.SORTTYPE.SELECTIONSORT ||
+            sorttype == KeyDictionary.SORTTYPE.SHELLSORT) {
             for (int i = 0; i < numberOfLoop; i++) {
                 GameObject tick = Instantiate(tickSymbol, new Vector3((4.6f + 0.6f * i), 4.6f, 0.0f), Quaternion.identity) as GameObject;
                 tickSymbolList.Add(tick);
             }
+            Debug.Log("a");
         }
 
         loopFinished = false;
@@ -330,9 +333,8 @@ public class ProgrammableMove : MonoBehaviour {
         if (isDoingProgram == false) {
             movesList.Clear();
             foreach (GameObject button in buttonList) {
-                Destroy(button.gameObject);
+                button.SetActive(false);
             }
-            buttonList.Clear();
         }
     }
 
@@ -615,6 +617,7 @@ public class ProgrammableMove : MonoBehaviour {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Ideal Solution Simulation Finished");
 
             if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+               
                 moveListList.Clear();
                 loopDone = 0;
                 manageLoopNumber();

@@ -13,6 +13,10 @@ public class InfoTutorial : MonoBehaviour {
     public List<Sprite> mergeSortImages = new List<Sprite>();
     public List<Sprite> quickSortImages = new List<Sprite>();
 
+    public List<Sprite> bubbleSortImages = new List<Sprite>();
+    public List<Sprite> insertionSortImages = new List<Sprite>();
+    public List<Sprite> selectionSortImages = new List<Sprite>();
+
     public GameObject tutorialContainer;
 
     public GameObject tutorialImageObject;
@@ -26,14 +30,19 @@ public class InfoTutorial : MonoBehaviour {
 
     public int amountOfPages = 0;
 
+    private bool isAtMainMenu = false;
+
+    public Text pageNumText;
+
 	// Use this for initialization
 	void Start () {
         sortType = PlayerPrefs.GetInt("sorttype", 0);
         if (SceneManager.GetActiveScene().name == "mainmenu") {
-
+            isAtMainMenu = true;
+            this.gameObject.SetActive(false);
         }
         else {
-
+            isAtMainMenu = false;
             if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
                 amountOfPages = basicTutorialSprites.Count;
             }
@@ -67,28 +76,32 @@ public class InfoTutorial : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            showNextPage();
-            return;
-        }
-        /*
-        if (Input.GetMouseButtonDown(0)) {
-            dragOrigin = Input.mousePosition;
-            return;
-        }
-
-        if (!Input.GetMouseButton(0)) return;
-
-        if (Input.mousePosition.x - dragOrigin.x < 0) {
-            if (animationFinish == true) {
+        if (isAtMainMenu == false) {
+            if (Input.GetMouseButtonDown(0)) {
                 showNextPage();
-                
+                return;
             }
         }
-        if (Input.mousePosition.x - dragOrigin.x > 0) {
-            if (animationFinish == true) {
-                showPrevPage();
-                
+        /*
+        else {
+            if (Input.GetMouseButtonDown(0)) {
+                dragOrigin = Input.mousePosition;
+                return;
+            }
+
+            if (!Input.GetMouseButton(0)) return;
+
+            if (Input.mousePosition.x - dragOrigin.x < 0) {
+                if (animationFinish == true) {
+                    showNextPage();
+
+                }
+            }
+            if (Input.mousePosition.x - dragOrigin.x > 0) {
+                if (animationFinish == true) {
+                    showPrevPage();
+
+                }
             }
         }
         */
@@ -125,12 +138,21 @@ public class InfoTutorial : MonoBehaviour {
         sortType = PlayerPrefs.GetInt("sorttype", 0);
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
+            if(isAtMainMenu == true) {
+                return bubbleSortImages[tutorialNum];
+            }
             return basicTutorialSprites[tutorialNum];
         }
         else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
+            if (isAtMainMenu == true) {
+                return selectionSortImages[tutorialNum];
+            }
             return basicTutorialSprites[tutorialNum];
         }
         else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+            if (isAtMainMenu == true) {
+                return insertionSortImages[tutorialNum];
+            }
             return basicTutorialSprites[tutorialNum];
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
@@ -152,6 +174,9 @@ public class InfoTutorial : MonoBehaviour {
     public void showInitialPage() {
         pageNum = 0;
         tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+        if (isAtMainMenu) {
+            pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+        }
         //tutorialContainer.transform.localPosition = new Vector3(0.0f, tutorialContainer.transform.localPosition.y, tutorialContainer.transform.localPosition.z);
         //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
     }
@@ -160,10 +185,14 @@ public class InfoTutorial : MonoBehaviour {
         pageNum++;
         if(pageNum < amountOfPages) {
             tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+            if (isAtMainMenu) {
+                pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+            }
             //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
         }
         else {
             pageNum = amountOfPages - 1;
+            if (isAtMainMenu == false)
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().hideTutorialPanel();
         }
         
@@ -174,6 +203,9 @@ public class InfoTutorial : MonoBehaviour {
         if (pageNum >= 0) {
             //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
             tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+            if (isAtMainMenu) {
+                pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+            }
         }
         else {
             pageNum = 0;
@@ -278,5 +310,34 @@ public class InfoTutorial : MonoBehaviour {
 
     public void clickForNextPage() {
         
+    }
+
+    public void showTutorialMainMenu() {
+        
+        sortType = PlayerPrefs.GetInt("sorttype", 0);
+
+        if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
+            amountOfPages = bubbleSortImages.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
+            amountOfPages = selectionSortImages.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
+            amountOfPages = insertionSortImages.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+            amountOfPages = basicTutorialSprites.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
+            amountOfPages = heapSortImages.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.MERGESORT) {
+            amountOfPages = mergeSortImages.Count;
+        }
+        else if (sortType == KeyDictionary.SORTTYPE.QUICKSORT) {
+            amountOfPages = quickSortImages.Count;
+        }
+
+        showInitialPage();
     }
 }

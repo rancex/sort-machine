@@ -408,11 +408,16 @@ public class CraneManager : MonoBehaviour {
                 gameManager.GetComponent<GameManager>().sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
 
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Start Insertion Sort.");
+                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().enableControls();
                 programMove.GetComponent<ProgrammableMove>().destroyAllProgramButtons();
                 programMove.GetComponent<ProgrammableMove>().setAvailableMoves();
 
+                programMove.GetComponent<ProgrammableMove>().loopDone = 0;
+                programMove.GetComponent<ProgrammableMove>().manageLoopNumber();
+
                 GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().findIdealSolution();
                 programMove.GetComponent<ProgrammableMove>().isRunningIdealSolution = false;
+               
             }
         }
         #endregion

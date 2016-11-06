@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
 
     public GameObject tutorialPanel;
 
+    public GameObject tutorialButton;
+
     //1 = main menu
     //2 = is Choosing Sort
     //3 = Look at high score + play
@@ -58,6 +60,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startBubbleSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(true);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.BUBBLESORT);
             sortNameString = "BUBBLE\r\nSORT";
             showPlayMenu();
@@ -66,6 +69,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startSelectionSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(true);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SELECTIONSORT);
             sortNameString = "SELECTION\r\nSORT";
             showPlayMenu();
@@ -74,6 +78,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startInsertionSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(true);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.INSERTIONSORT);
             sortNameString = "INSERTION\r\nSORT";
             showPlayMenu();
@@ -82,6 +87,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startShellSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(false);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SHELLSORT);
             sortNameString = "SHELL\r\nSORT";
             showPlayMenu();
@@ -90,6 +96,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startHeapSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(false);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.HEAPSORT);
             sortNameString = "HEAP\r\nSORT";
             showPlayMenu();
@@ -98,6 +105,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startMergeSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(false);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.MERGESORT);
             sortNameString = "MERGE\r\nSORT";
             showPlayMenu();
@@ -106,6 +114,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startQuickSort() {
         if (animationFinish == true) {
+            tutorialButton.SetActive(false);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.QUICKSORT);
             sortNameString = "QUICK\r\nSORT";
             showPlayMenu();
@@ -173,8 +182,8 @@ public class MainMenu : MonoBehaviour {
 
     public void showTutorial() {
         tutorialPanel.SetActive(true);
-        tutorialPanel.GetComponent<InfoTutorial>().showInitialPage();
-        tutorialPanel.GetComponent<InfoTutorial>().modifyImage();
+        tutorialPanel.GetComponent<InfoTutorial>().showTutorialMainMenu();
+        //tutorialPanel.GetComponent<InfoTutorial>().modifyImage();
     }
 
     public void hideTutorial() {
