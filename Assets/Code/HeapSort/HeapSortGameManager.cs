@@ -50,6 +50,7 @@ public class HeapSortGameManager : MonoBehaviour {
         saveNumberOriginalPosition();
 
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Heap Sort");
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showStartupTutorialPanel();
     }
 	
     void gameOver() {
@@ -69,15 +70,16 @@ public class HeapSortGameManager : MonoBehaviour {
                 if (checkHeap() == true) {
 
                     isHeapifying = true;
-                    
+                    /*
                     Vector3 topHeapPosition = new Vector3(heapList[0].transform.position.x,
                                                           heapList[0].transform.position.y,
                                                           heapList[0].transform.position.z);
-
+                    */
+                    /*
                     Vector3 topHeapSize = new Vector3(heapList[0].transform.localScale.x,
                                                       heapList[0].transform.localScale.y,
                                                       heapList[0].transform.localScale.z);
-
+                    */
                     dehighlightClickable(chosenHeapObject);
 
                     chosenHeapObject = heapList[heapList.Count - 1];

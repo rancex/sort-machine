@@ -16,6 +16,7 @@ public class InfoTutorial : MonoBehaviour {
     public List<Sprite> bubbleSortImages = new List<Sprite>();
     public List<Sprite> insertionSortImages = new List<Sprite>();
     public List<Sprite> selectionSortImages = new List<Sprite>();
+    public List<Sprite> shellSortImages = new List<Sprite>();
 
     public GameObject tutorialContainer;
 
@@ -33,6 +34,9 @@ public class InfoTutorial : MonoBehaviour {
     private bool isAtMainMenu = false;
 
     public Text pageNumText;
+
+    public GameObject prevButton;
+    public GameObject nextButton;
 
 	// Use this for initialization
 	void Start () {
@@ -156,6 +160,9 @@ public class InfoTutorial : MonoBehaviour {
             return basicTutorialSprites[tutorialNum];
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+            if (isAtMainMenu == true) {
+                return shellSortImages[tutorialNum];
+            }
             return basicTutorialSprites[tutorialNum];
         }
         else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
@@ -176,6 +183,7 @@ public class InfoTutorial : MonoBehaviour {
         tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
         if (isAtMainMenu) {
             pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+            prevButton.SetActive(false);
         }
         //tutorialContainer.transform.localPosition = new Vector3(0.0f, tutorialContainer.transform.localPosition.y, tutorialContainer.transform.localPosition.z);
         //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
@@ -183,28 +191,37 @@ public class InfoTutorial : MonoBehaviour {
 
     public void showNextPage() {
         pageNum++;
-        if(pageNum < amountOfPages) {
+        if (isAtMainMenu) prevButton.SetActive(true);
+        if (pageNum < amountOfPages) {
             tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
             if (isAtMainMenu) {
                 pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+                if(pageNum == amountOfPages - 1) {
+                    nextButton.SetActive(false);
+                }
             }
             //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
         }
         else {
             pageNum = amountOfPages - 1;
-            if (isAtMainMenu == false)
-            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().hideTutorialPanel();
+            if (isAtMainMenu == false) {
+                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().hideTutorialPanel();
+            }
         }
         
     }
 
     public void showPrevPage() {
         pageNum--;
+        if (isAtMainMenu) nextButton.SetActive(true);
         if (pageNum >= 0) {
             //StartCoroutine(smoothMoveToPosition(1.0f, -1920.0f * pageNum));
             tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
             if (isAtMainMenu) {
                 pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
+                if(pageNum == 0) {
+                    prevButton.SetActive(false);
+                }
             }
         }
         else {
@@ -326,7 +343,7 @@ public class InfoTutorial : MonoBehaviour {
             amountOfPages = insertionSortImages.Count;
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-            amountOfPages = basicTutorialSprites.Count;
+            amountOfPages = shellSortImages.Count;
         }
         else if (sortType == KeyDictionary.SORTTYPE.HEAPSORT) {
             amountOfPages = heapSortImages.Count;

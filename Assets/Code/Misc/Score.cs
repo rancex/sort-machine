@@ -12,9 +12,11 @@ public class Score : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        setSortType();
+        //setSortType();
+        if (SceneManager.GetActiveScene().name == "mainmenu") {
+            setSortType();
+        }
 
-        
     }
 	
 	// Update is called once per frame
@@ -31,7 +33,11 @@ public class Score : MonoBehaviour {
             targetListName = "scoreListSelection";
         }
         else if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
-            targetListName = "scoreListInsertion";
+            if (PlayerPrefs.GetInt("fromShell", 0) == 1) {
+                PlayerPrefs.SetInt("fromShell", 0);
+                targetListName = "scoreListShell";
+            }
+            else targetListName = "scoreListInsertion";
         }
         else if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
             targetListName = "scoreListShell";
@@ -82,6 +88,8 @@ public class Score : MonoBehaviour {
     }
 
     public void showLeaderboard() {
+
+       
 
         int[] scoreArray = PlayerPrefsX.GetIntArray(targetListName, 99999, 5);
 

@@ -18,7 +18,7 @@ public class CameraControls : MonoBehaviour {
 
     private float cameraXLimitLeft = 0.0f;
     private float cameraXLimitRight = 0.0f;
-    private float cametaYlimit = 0.0f;
+   // private float cametaYlimit = 0.0f;
 
 	// Use this for initialization
 	void Start () {

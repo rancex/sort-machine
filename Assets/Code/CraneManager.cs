@@ -15,11 +15,11 @@ public class CraneManager : MonoBehaviour {
     public GameObject gameManager;
     public GameObject programMove;
 
-    float originalWireWidthOne = 0.0f;
-    float wireYPosOne = 0.0f;
+    //float originalWireWidthOne = 0.0f;
+    //float wireYPosOne = 0.0f;
 
-    float originalWireWidthTwo = 0.0f;
-    float wireYPosTwo = 0.0f;
+    //float originalWireWidthTwo = 0.0f;
+    //float wireYPosTwo = 0.0f;
 
     public float craneOriginalPos = -6.5f;
 
@@ -405,8 +405,11 @@ public class CraneManager : MonoBehaviour {
             }
             if(gapLength <= 1) {
 
-                gameManager.GetComponent<GameManager>().sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
+                gameManager.GetComponent<GameManager>().saveCarNumberList();
 
+                SceneChooser.startInsertionSort();
+
+                /*
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Start Insertion Sort.");
                 GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().enableControls();
                 programMove.GetComponent<ProgrammableMove>().destroyAllProgramButtons();
@@ -417,7 +420,8 @@ public class CraneManager : MonoBehaviour {
 
                 GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().findIdealSolution();
                 programMove.GetComponent<ProgrammableMove>().isRunningIdealSolution = false;
-               
+                craneOne.GetComponent<ClawScript>().changeSpriteToSpotlight();
+                */
             }
         }
         #endregion

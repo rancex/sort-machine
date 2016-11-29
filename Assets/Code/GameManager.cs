@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour {
 
     public bool isSolving = false;
 
+    private bool fromShell = false;
+
     // Use this for initialization
     void Start() {
 
@@ -210,11 +212,32 @@ public class GameManager : MonoBehaviour {
             sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
             GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().findIdealSolution();
         }
+        GameObject.Find("InterfaceManager").GetComponent<Score>().setSortType();
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showStartupTutorialPanel();
+    }
+
+    public void saveCarNumberList() {
+        int[] numberList = new int[carList.Count];
+        for(int i = 0;i < carList.Count; i++) {
+            numberList[i] = carList[i].GetComponent<CarMainScript>().carNumber;
+        }
+        PlayerPrefsX.SetIntArray("shellArray", numberList);
+        PlayerPrefs.SetInt("fromShell", 1);
     }
 
     void generateCars() {
 
-        List<int> numberList = Shuffler.generateRandomList(objectAmount);
+        List<int> numberList = new List<int>();
+
+        if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT && PlayerPrefs.GetInt("fromShell",0) == 1) {
+            int[] tempNumberList = PlayerPrefsX.GetIntArray("shellArray");
+            for(int i = 0;i < tempNumberList.Length; i++) {
+                numberList.Add(tempNumberList[i]);
+            }
+            
+            fromShell = true;
+        }
+        else numberList = Shuffler.generateRandomList(objectAmount);
 
         int highestNumber = 0;
 
@@ -476,10 +499,10 @@ public class GameManager : MonoBehaviour {
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) { 
             Debug.Log('w');
             int position = craneManagerScript.cranePosition;
-            int maxPosition = craneManagerScript.maxCranePosition;
+            //int maxPosition = craneManagerScript.maxCranePosition;
 
-            int tempValue = carList[position].GetComponent<CarMainScript>().carNumber;
-            float tempXPos = carList[position].transform.position.x;
+            //int tempValue = carList[position].GetComponent<CarMainScript>().carNumber;
+            //float tempXPos = carList[position].transform.position.x;
 
             /*
             carList[position].transform.position = new Vector3( carList[position + 1].transform.position.x,
@@ -517,8 +540,8 @@ public class GameManager : MonoBehaviour {
 
             if (position2 != -1) {
 
-                int tempValue = carList[position1].GetComponent<CarMainScript>().carNumber;
-                float tempXPos = carList[position1].transform.position.x;
+                //int tempValue = carList[position1].GetComponent<CarMainScript>().carNumber;
+                //float tempXPos = carList[position1].transform.position.x;
 
                 craneManagerScript.craneTwo.transform.position = new Vector3(carList[position2].transform.position.x,
                                                                              craneManagerScript.craneTwo.transform.position.y,
@@ -550,7 +573,7 @@ public class GameManager : MonoBehaviour {
             int cranePositionRed = craneManagerScript.cranePosition;
             int cranePositionGreen = craneManagerScript.cranePosition2;
 
-            int tempValue = carList[cranePositionGreen].GetComponent<CarMainScript>().carNumber;
+            //int tempValue = carList[cranePositionGreen].GetComponent<CarMainScript>().carNumber;
 
             /*
             for (int i = cranePositionGreen; i > cranePositionRed; i--) {

@@ -87,7 +87,7 @@ public class MainMenu : MonoBehaviour {
 
     public void startShellSort() {
         if (animationFinish == true) {
-            tutorialButton.SetActive(false);
+            tutorialButton.SetActive(true);
             PlayerPrefs.SetInt("sorttype", KeyDictionary.SORTTYPE.SHELLSORT);
             sortNameString = "SHELL\r\nSORT";
             showPlayMenu();
@@ -192,5 +192,9 @@ public class MainMenu : MonoBehaviour {
 
     public void openSurvey() {
         SceneChooser.openSurvey();
+    }
+
+    public void exitGame() {
+        Application.Quit();
     }
 }

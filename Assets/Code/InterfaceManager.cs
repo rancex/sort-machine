@@ -119,6 +119,11 @@ public class InterfaceManager : MonoBehaviour {
         tutorialPanel.SetActive(true);
     }
 
+    public void showStartupTutorialPanel() {
+        tutorialPanel.GetComponent<InfoTutorial>().showInitialPage();
+        tutorialPanel.SetActive(true);
+    }
+
     public void hideTutorialPanel() {
         tutorialPanel.SetActive(false);
     }
@@ -131,4 +136,6 @@ public class InterfaceManager : MonoBehaviour {
     public void openSurvey() {
         SceneChooser.openSurvey();
     }
+
+
 }

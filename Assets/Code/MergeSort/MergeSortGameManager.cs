@@ -31,6 +31,7 @@ public class MergeSortGameManager : MonoBehaviour {
         startNextLevel();
 
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome To Merge Sort");
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showStartupTutorialPanel();
     }
 
     // 0 = nothing

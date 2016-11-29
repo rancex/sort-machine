@@ -26,7 +26,7 @@ public class IdealSolutionQuicksort : MonoBehaviour {
     bool isInit = false;
 
     public void initList() {
-        int numberOfObject = gameManager.carList.Count;
+       // int numberOfObject = gameManager.carList.Count;
 
         isInit = true;
 

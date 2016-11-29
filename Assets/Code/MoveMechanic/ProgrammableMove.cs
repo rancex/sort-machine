@@ -198,6 +198,8 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void runProgram() {
 
+
+
         if (gameOver == false) {
 
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("");
@@ -257,7 +259,9 @@ public class ProgrammableMove : MonoBehaviour {
 
                 movesList.Add(moveType);
 
-                GameObject buttonObj = Instantiate(buttonObject, new Vector3(posX, posY, 0f), Quaternion.identity) as GameObject;
+                GameObject buttonObj = Instantiate(buttonObject, 
+                                                   new Vector3(posX, posY, 0f), 
+                                                   Quaternion.identity) as GameObject;
                 buttonObj.GetComponent<ProgramButtonScript>().setMoveType(moveType);
                 buttonObj.GetComponent<ProgramButtonScript>().setMoveIndex(movesList.Count - 1);
 
