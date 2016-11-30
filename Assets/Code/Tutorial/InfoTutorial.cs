@@ -181,9 +181,11 @@ public class InfoTutorial : MonoBehaviour {
     public void showInitialPage() {
         pageNum = 0;
         tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);
+
         if (isAtMainMenu) {
             pageNumText.text = (pageNum + 1) + " / " + amountOfPages;
             prevButton.SetActive(false);
+            nextButton.SetActive(true);
         }
         //tutorialContainer.transform.localPosition = new Vector3(0.0f, tutorialContainer.transform.localPosition.y, tutorialContainer.transform.localPosition.z);
         //tutorialImage.sprite = returnTutorialSpriteByPage(pageNum);

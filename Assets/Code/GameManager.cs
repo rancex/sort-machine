@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour {
 
         if (sortType == KeyDictionary.SORTTYPE.BUBBLESORT) {
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Bubble Sort");
-            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
+            //GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
             craneManagerScript.craneTwo = Instantiate(cranePrefab, new Vector3(carList[1].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.SELECTIONSORT) {
             sortType = KeyDictionary.SORTTYPE.SELECTIONSORT;
-            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
+            //GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Selection Sort");
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.INSERTIONSORT) {
             sortType = KeyDictionary.SORTTYPE.INSERTIONSORT;
-            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
+            //GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Insertion Sort");
 
             craneManagerScript.craneOne = Instantiate(cranePrefab, new Vector3(carList[0].transform.position.x, startYpos + 3f, -4), Quaternion.identity) as GameObject;
@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour {
         }
         if (sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
             sortType = KeyDictionary.SORTTYPE.SHELLSORT;
-            GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
+            //GameObject.Find("Scrollbar").GetComponent<Scrollbar>().value = 1;
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Shell Sort");
 
             
@@ -918,6 +918,12 @@ public class GameManager : MonoBehaviour {
         return false;
     }
 
+    public int isUsingIdeal = 0;
+
+    public void isUsingIdealSolverEnable() {
+        isUsingIdeal = 1;
+    }
+
     public void gameOver() {
         //GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().disableControls();
 
@@ -960,7 +966,10 @@ public class GameManager : MonoBehaviour {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
 
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().stopTimer();
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+
+        if (isUsingIdeal == 0) {
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+        }
     }
 
     public void gameOverTimeout() {

@@ -38,6 +38,7 @@ public class HeapIdealSolve : MonoBehaviour {
 
     public void startIdealSolver() {
         if (isSolving == false) {
+            gameManager.isUsingIdealSolverEnable();
             isSolving = true;
             isWaitingForNextSolve = true;
 

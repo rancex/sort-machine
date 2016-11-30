@@ -49,7 +49,7 @@ public class ProgrammableMove : MonoBehaviour {
     public GameObject craneTwo = null;
 
     private float moveExecuteXPos = -181f;
-    private float moveExecuteYPos = 202f;
+    private float moveExecuteYPos = 90f;
 
     private float moveExecuteGap = 103f;
 
@@ -198,8 +198,6 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void runProgram() {
 
-
-
         if (gameOver == false) {
 
             GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("");
@@ -209,8 +207,6 @@ public class ProgrammableMove : MonoBehaviour {
             isDoingProgram = true;
             animationIsRunning = true;
             stopRunningProgram();
-
-           
 
             if (loopFinished == false) {
 
@@ -320,17 +316,19 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void restartProgram() {
 
-        loopFinished = false;
+        if (isDoingProgram == false) {
+            loopFinished = false;
 
-        gameManager.GetComponent<GameManager>().restartCarPositions();
+            gameManager.GetComponent<GameManager>().restartCarPositions();
 
-        stopRunningProgram();
+            stopRunningProgram();
 
-        foreach (GameObject button in buttonList) {
-            button.GetComponent<ProgramButtonScript>().dehighlightSprite();
+            foreach (GameObject button in buttonList) {
+                button.GetComponent<ProgramButtonScript>().dehighlightSprite();
+            }
+
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("");
         }
-
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("");
     }
 
     public void destroyAllButton() {
@@ -532,7 +530,7 @@ public class ProgrammableMove : MonoBehaviour {
     }
 
     public void prepareNextLoop() {
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Completed Highest Number. /n Press Run To Continue");
+        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Completed Highest Number. Press Run To Continue");
         loopFinished = true;
         stopRunningProgram();
 
@@ -599,32 +597,40 @@ public class ProgrammableMove : MonoBehaviour {
 
     public void runIdealSolution() {
 
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().disableControls();
+        if (isRunningIdealSolution == false && isDoingProgram == true) {
 
-        if (movesList.Count > 0) {
-            destroyAllButton();
-        }
-
-        isRunningIdealSolution = true;
-
-        List<List<int>> moveListList = GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().moveListList;
-
-        if (loopDone < moveListList.Count) {
-            foreach (int move in moveListList[loopDone]) {
-                addMove(move, -1);
-            }
-
-            runProgram();
         }
         else {
-            isRunningIdealSolution = false;
-            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Ideal Solution Simulation Finished");
 
-            if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
-               
-                moveListList.Clear();
-                loopDone = 0;
-                manageLoopNumber();
+            GameObject.Find("GameManager").SendMessage("isUsingIdealSolverEnable");
+
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().disableControls();
+
+            if (movesList.Count > 0) {
+                destroyAllButton();
+            }
+
+            isRunningIdealSolution = true;
+
+            List<List<int>> moveListList = GameObject.Find("IdealSolver").GetComponent<IdealSolutionAuto>().moveListList;
+
+            if (loopDone < moveListList.Count) {
+                foreach (int move in moveListList[loopDone]) {
+                    addMove(move, -1);
+                }
+
+                runProgram();
+            }
+            else {
+                isRunningIdealSolution = false;
+                GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Ideal Solution Simulation Finished");
+
+                if (gameManager.GetComponent<GameManager>().sortType == KeyDictionary.SORTTYPE.SHELLSORT) {
+
+                    moveListList.Clear();
+                    loopDone = 0;
+                    manageLoopNumber();
+                }
             }
         }
     }

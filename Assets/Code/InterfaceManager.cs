@@ -24,6 +24,8 @@ public class InterfaceManager : MonoBehaviour {
     public Text victoryText;
     public Text timeElapsedText;
 
+    public GameObject solveButton;
+
     // Use this for initialization
     void Start () {
         scoreManager = this.GetComponent<Score>();
@@ -41,11 +43,17 @@ public class InterfaceManager : MonoBehaviour {
         infoText.text = info;
     }
 
+    public void disableSolveButton() {
+        solveButton.SetActive(false);
+    }
+
     public void disableControls() {
         if(controllerGeneral != null)
         controllerGeneral.SetActive(false);
         //controllerSelection.SetActive(false);
     }
+
+
     public void enableControls() {
         if (controllerGeneral != null)
             controllerGeneral.SetActive(true);

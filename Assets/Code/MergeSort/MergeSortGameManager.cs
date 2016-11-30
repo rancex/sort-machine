@@ -47,14 +47,24 @@ public class MergeSortGameManager : MonoBehaviour {
         }
 	}
 
+    public int isUsingIdeal = 0;
+
+    public void isUsingIdealSolverEnable() {
+        isUsingIdeal = 1;
+    }
+
     void gameOver() {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Merge Sort Completed");
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+        GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+
+        if (isUsingIdeal == 0) {
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+        }
 
         this.GetComponent<MergeIdealSolver>().gameOver = true;
 
-        GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+        
     }
 
     public void finishedMovingObject(GameObject g) {

@@ -52,13 +52,22 @@ public class HeapSortGameManager : MonoBehaviour {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("Welcome to Heap Sort");
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showStartupTutorialPanel();
     }
-	
+
+    public int isUsingIdeal = 0;
+
+    public void isUsingIdealSolverEnable() {
+        isUsingIdeal = 1;
+    }
+
     void gameOver() {
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().changeInfoText("All objects are sorted");
         GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().toggleGameOverControls();
-        GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
-
         GameObject.Find("Timer").GetComponent<Timer>().stopTimer();
+
+        if (isUsingIdeal == 0) {
+            GameObject.Find("InterfaceManager").GetComponent<InterfaceManager>().showScoreInterface(true);
+        }
+       
     }
 
     public void startNextHeap() {
